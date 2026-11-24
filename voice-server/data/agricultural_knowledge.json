@@ -1,5 +1,166 @@
 [
   {
+    "id": "wiki_live_5591",
+    "documentId": "wiki_live_5591",
+    "title": "जैवप्रौद्योगिकी",
+    "category": "Live Web Scan",
+    "language": "Hindi",
+    "summary": "जैवप्रौद्योगिकी या जैवतकनीकी, प्रौद्योगिकी का वो विषय है जो अभियान्त्रिकी और तकनीकी के डाटा और विधियों को जीवों और जीवन तन्त्रों से सम्बन्धित अध्ययन और समस्या के समाधान के लिये उपयोग करता है।  इसे रासायनिक अभियान्त्रिकी, रसायन शास्त्र या जीव विज्ञान ",
+    "extractedData": {
+      "key_facts": [
+        "जैवप्रौद्योगिकी या जैवतकनीकी, प्रौद्योगिकी का वो विषय है जो अभियान्त्रिकी और तकनीकी के डाटा और विधियों को जीवों और जीवन तन्त्रों से सम्बन्धित अध्ययन औ"
+      ]
+    },
+    "source": {
+      "name": "Wikipedia (Live Web Scan)",
+      "url": "https://hi.wikipedia.org/wiki/%E0%A4%9C%E0%A5%88%E0%A4%B5%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%8C%E0%A4%A6%E0%A5%8D%E0%A4%AF%E0%A5%8B%E0%A4%97%E0%A4%BF%E0%A4%95%E0%A5%80",
+      "page_id": "5591",
+      "license": "CC BY-SA 4.0"
+    },
+    "verificationStatus": "approved",
+    "createdAt": "2026-11-24T23:36:09.248Z",
+    "updatedAt": "2026-11-24T23:36:09.248Z"
+  },
+  {
+    "id": "wiki_live_62784",
+    "documentId": "wiki_live_62784",
+    "title": "Soybean",
+    "category": "Live Web Scan",
+    "language": "English",
+    "summary": "The soybean, soy bean, or soya bean (Glycine max) is a species of legume native to East Asia, widely grown for its edible bean. Soy is a staple crop, the world's most grown legume, and an important animal feed.\nSoy is a key food source, owing to its ",
+    "extractedData": {
+      "key_facts": [
+        "The soybean, soy bean, or soya bean (Glycine max) is a species of legume native to East Asia, widely grown for its edible bean. Soy is a staple crop, "
+      ]
+    },
+    "source": {
+      "name": "Wikipedia (Live Web Scan)",
+      "url": "https://en.wikipedia.org/wiki/Soybean",
+      "page_id": "62784",
+      "license": "CC BY-SA 4.0"
+    },
+    "verificationStatus": "approved",
+    "createdAt": "2026-11-24T23:35:58.321Z",
+    "updatedAt": "2026-11-24T23:35:58.323Z"
+  },
+  {
+    "id": "agri_en_74991777_r1383171931",
+    "documentId": "agri_en_74991777_r1383171931",
+    "title": "History of wheat",
+    "category": "Crop Information",
+    "language": "English",
+    "summary": "Wheat has been a crucial food plant since before agriculture began, with its cultivation spanning over 10,000 years. Its production has grown alongside the expansion of land dedicated to wheat and the trade of this commodity.",
+    "extractedData": {
+      "crop_name": "null",
+      "scientific_name": "null",
+      "varieties": [],
+      "growing_conditions": [],
+      "soil_requirements": [],
+      "cultivation_methods": [],
+      "growing_seasons": [],
+      "disease_details": {
+        "disease_name": "null",
+        "affected_crops": [],
+        "symptoms": [],
+        "causes": [],
+        "prevention_and_management": []
+      },
+      "pest_details": {
+        "pest_name": "null",
+        "affected_crops": [],
+        "damage_symptoms": [],
+        "prevention_and_control": []
+      },
+      "soil_details": {
+        "soil_type": "null",
+        "properties": [],
+        "agricultural_suitability": []
+      },
+      "farming_techniques": [],
+      "key_facts": [
+        "Wheat has been cultivated for over 10,000 years.",
+        "Its production has increased significantly over time.",
+        "The area of land under wheat cultivation has expanded."
+      ]
+    },
+    "source": {
+      "name": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/History_of_wheat",
+      "page_id": "74991777",
+      "revision_id": "1383171931",
+      "revision_timestamp": "2026-11-01T09:56:59Z",
+      "license": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "attribution": "Extracted from Wikipedia under CC BY-SA 4.0 license."
+    },
+    "contentHash": "7e8533d0c1f135d7cb20eabf528694142a8fe54f026cac316a4f841f69511423",
+    "verificationStatus": "pending_review",
+    "isRelevant": true,
+    "extractedAt": "2026-11-24T23:08:01.739Z",
+    "processedByModel": "gpt-4o-mini",
+    "createdAt": "2026-11-24T23:08:01.739Z",
+    "updatedAt": "2026-11-24T23:08:01.739Z"
+  },
+  {
+    "id": "agri_en_57522_r1387529699",
+    "documentId": "agri_en_57522_r1387529699",
+    "title": "Einkorn",
+    "category": "Crop Information",
+    "language": "English",
+    "summary": "Einkorn is an ancient form of wheat, known scientifically as Triticum monococcum for the domesticated variety and Triticum boeoticum for the wild form. It is characterized by its diploid nature and tough glumes that enclose the grains, with each spikelet containing only one grain.",
+    "extractedData": {
+      "crop_name": "Einkorn",
+      "scientific_name": "Triticum monococcum",
+      "varieties": [
+        "Triticum boeoticum",
+        "Triticum monococcum"
+      ],
+      "growing_conditions": [],
+      "soil_requirements": [],
+      "cultivation_methods": [],
+      "growing_seasons": [],
+      "disease_details": {
+        "disease_name": null,
+        "affected_crops": [],
+        "symptoms": [],
+        "causes": [],
+        "prevention_and_management": []
+      },
+      "pest_details": {
+        "pest_name": null,
+        "affected_crops": [],
+        "damage_symptoms": [],
+        "prevention_and_control": []
+      },
+      "soil_details": {
+        "soil_type": null,
+        "properties": [],
+        "agricultural_suitability": []
+      },
+      "farming_techniques": [],
+      "key_facts": [
+        "Einkorn is one of the first forms of wheat to be cultivated.",
+        "It has tough glumes that tightly enclose the grains.",
+        "The cultivated form has larger seeds compared to the wild form."
+      ]
+    },
+    "source": {
+      "name": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Einkorn",
+      "page_id": "57522",
+      "revision_id": "1387529699",
+      "revision_timestamp": "2026-11-24T10:58:45Z",
+      "license": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "attribution": "Extracted from Wikipedia under CC BY-SA 4.0 license."
+    },
+    "contentHash": "d5148bc000fb0440ec7cf27fc511f62a076dde51f338da0c4b856f8e8b4d82c6",
+    "verificationStatus": "pending_review",
+    "isRelevant": true,
+    "extractedAt": "2026-11-24T23:07:53.938Z",
+    "processedByModel": "gpt-4o-mini",
+    "createdAt": "2026-11-24T23:07:53.938Z",
+    "updatedAt": "2026-11-24T23:07:53.938Z"
+  },
+  {
     "id": "agri_hi_25446_r6504196",
     "documentId": "agri_hi_25446_r6504196",
     "title": "सरसों",

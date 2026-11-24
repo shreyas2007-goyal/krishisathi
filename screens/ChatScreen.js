@@ -219,7 +219,7 @@ export default function ChatScreen() {
       if (!res.ok) throw new Error(data?.error || `Chat request failed (${res.status})`);
       const reply = data.reply;
 
-      setMessages((prev)=>[...prev,{content:reply,author:'ai'}]);
+      setMessages((prev)=>[...prev,{content:reply, author:'ai', source: data.scannedSource}]);
     } catch (err) {
       console.error(err);
       setMessages((prev)=>[...prev,{content:'Unable to connect to Kissan AI. Please try again.',author:'ai'}]);
@@ -273,7 +273,20 @@ export default function ChatScreen() {
             return(
                 <View key={`${i.author}-${index}`} style={i.author === 'human' ? styles.messageContainer : styles.messageContainer_assistant}>
                   {i.image && <Image source={{ uri: i.image }} style={styles.messageImage} />}
-                  {i.author === 'human' ? <Text style={styles.human}>{i.content}</Text> : <FormattedAssistantMessage content={i.content} />}
+                  {i.author === 'human' ? (
+                    <Text style={styles.human}>{i.content}</Text>
+                  ) : (
+                    <View>
+                      <FormattedAssistantMessage content={i.content} />
+                      {i.source?.title && (
+                        <View style={{ marginTop: 8, paddingTop: 6, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.15)' }}>
+                          <Text style={{ fontSize: 11, color: '#A5D6A7' }}>
+                            Source: Wikipedia ({i.source.title})
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  )}
                 </View>
                      
         

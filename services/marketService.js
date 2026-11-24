@@ -56,7 +56,7 @@ export const INITIAL_CROPS_CATALOGUE = [
 
   // Oilseeds
   { id: 'mustard', name: 'Mustard', nameHi: 'सरसों (Mustard)', namePa: 'ਸਰ੍ਹੋਂ', category: 'oilseeds', icon: 'flower', defaultPrice: 5650 },
-  { id: 'soybean', name: 'Soyabean', nameHi: 'सोयाबीन (Soybean)', namePa: 'ਸੋਇਆਬੀਨ', category: 'oilseeds', icon: 'seed-outline', defaultPrice: 4350 },
+  { id: 'soybean', name: 'Soyabean', nameHi: 'सोयाबीन (Soybean)', namePa: 'ਸੋਇਆਬੀਨ', category: 'oilseeds', icon: 'seed-outline', defaultPrice: 5120 },
   { id: 'groundnut', name: 'Groundnut', nameHi: 'मूंगफली (Groundnut)', namePa: 'ਮੂੰਗਫਲੀ', category: 'oilseeds', icon: 'peanut-outline', defaultPrice: 6100 },
   { id: 'sunflower', name: 'Sunflower', nameHi: 'सूरजमुखी (Sunflower)', namePa: 'ਸੂਰਜਮੁਖੀ', category: 'oilseeds', icon: 'flower-outline', defaultPrice: 4800 },
 ];

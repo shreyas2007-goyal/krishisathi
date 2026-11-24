@@ -11,6 +11,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   ImageBackground,
+  Image,
   Dimensions,
   ScrollView,
   Platform,
@@ -208,33 +209,25 @@ export default function LoginScreen({ navigation, route }) {
               })}
             </View>
 
-            {/* CARD TITLE (EXACTLY MATCHING "Farmer Login" IN USER SCREENSHOT) */}
-            <View style={styles.cardHeaderRow}>
-              <View style={styles.farmerIconCircle}>
-                <MaterialCommunityIcons
-                  name={
-                    selectedRole === USER_ROLES.FARMER
-                      ? 'account-tie-hat'
-                      : selectedRole === USER_ROLES.CUSTOMER
-                      ? 'cart-check'
-                      : 'store-cog'
-                  }
-                  size={26}
-                  color="#FFFFFF"
+            {/* OFFICIAL KISAN SAATHI LOGO EMBLEM */}
+            <View style={styles.logoBadgeContainer}>
+              <View style={styles.logoCircleWrapper}>
+                <Image
+                  source={require('../../assets/kisansaathi_logo.png')}
+                  style={styles.officialLogoImage}
+                  resizeMode="contain"
                 />
               </View>
+            </View>
+
+            {/* CARD TITLE */}
+            <View style={styles.cardHeaderRow}>
               <Text style={styles.cardTitle}>
                 {selectedRole === USER_ROLES.FARMER
-                  ? lang === 'hi'
-                    ? 'किसान लॉगिन'
-                    : 'Farmer Login'
+                  ? (lang === 'hi' ? 'किसान लॉगिन' : 'Farmer Login')
                   : selectedRole === USER_ROLES.CUSTOMER
-                  ? lang === 'hi'
-                    ? 'खरीदार लॉगिन'
-                    : 'Customer Login'
-                  : lang === 'hi'
-                  ? 'मंडी संचालक लॉगिन'
-                  : 'Mandi Login'}
+                  ? (lang === 'hi' ? 'खरीदार लॉगिन' : 'Customer Login')
+                  : (lang === 'hi' ? 'मंडी संचालक लॉगिन' : 'Mandi Login')}
               </Text>
             </View>
 
@@ -582,6 +575,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+  },
+  logoBadgeContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  logoCircleWrapper: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 6,
+    borderWidth: 2,
+    borderColor: '#C8E6C9',
+  },
+  officialLogoImage: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
   },
   farmerIconCircle: {
     width: 38,

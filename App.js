@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   splashLogo: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
   },
   splashTitle: {
     fontSize: 28,

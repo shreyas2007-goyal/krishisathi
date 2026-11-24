@@ -348,6 +348,79 @@ export async function loginUser({ email, password }) {
 }
 
 /**
+ * Direct Login with Name & Mobile Number (Farmer Quick Login)
+ */
+export async function loginWithPhoneAndName({ fullName, phoneNumber, role = USER_ROLES.FARMER, preferredLanguage = 'hi' }) {
+  if (!fullName?.trim()) {
+    throw new Error('Please enter your name.');
+  }
+  const cleanPhone = (phoneNumber || '').replace(/\D/g, '');
+  if (!cleanPhone || cleanPhone.length < 10) {
+    throw new Error('Please enter a valid 10-digit mobile number.');
+  }
+
+  const uid = `user_phone_${cleanPhone}`;
+  const email = `farmer.${cleanPhone}@kisansaathi.in`;
+
+  const userDocData = {
+    uid,
+    fullName: fullName.trim(),
+    phoneNumber: cleanPhone,
+    email,
+    role,
+    accountStatus: ACCOUNT_STATUS.ACTIVE,
+    preferredLanguage: preferredLanguage || 'hi',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  const roleProfileData = {
+    uid,
+    state: 'Punjab',
+    district: 'Ludhiana',
+    village: 'Rural Farm',
+    farmSize: '5 Acres',
+    primaryCrops: ['Wheat', 'Paddy'],
+    updatedAt: new Date().toISOString(),
+  };
+
+  // 1. Sync to Firestore in background without blocking immediate login
+  Promise.race([
+    Promise.all([
+      setDoc(doc(db, 'users', uid), {
+        ...userDocData,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      }, { merge: true }),
+      role === USER_ROLES.FARMER
+        ? setDoc(doc(db, 'farmerProfiles', uid), roleProfileData, { merge: true })
+        : Promise.resolve(),
+    ]),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore timeout')), 1200)),
+  ]).catch((err) => {
+    console.log('Background Firestore sync note:', err.message);
+  });
+
+  // 2. Save in local database
+  const localDb = await getLocalDatabase();
+  localDb.users[cleanPhone] = userDocData;
+  localDb.users[email] = userDocData;
+  localDb.users[uid] = userDocData;
+  localDb.farmerProfiles[uid] = roleProfileData;
+  await saveLocalDatabase(localDb);
+
+  // 3. Set Active Session
+  const sessionData = {
+    uid,
+    user: userDocData,
+    roleProfile: roleProfileData,
+    role,
+  };
+  await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionData));
+  return sessionData;
+}
+
+/**
  * Get current persisted session on app launch
  */
 export async function getPersistedSession() {

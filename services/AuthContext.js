@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import {
   getPersistedSession,
   loginUser,
+  loginWithPhoneAndName,
   registerUser,
   logoutUser,
   requestPasswordReset,
@@ -20,6 +21,7 @@ const AuthContext = createContext({
   roleProfile: null,
   isLoading: true,
   login: async () => {},
+  loginWithPhone: async () => {},
   register: async () => {},
   logout: async () => {},
   resetPassword: async () => {},
@@ -81,6 +83,19 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const handleLoginWithPhone = useCallback(async ({ fullName, phoneNumber, role, preferredLanguage }) => {
+    setIsLoading(true);
+    try {
+      const session = await loginWithPhoneAndName({ fullName, phoneNumber, role, preferredLanguage });
+      setUser(session.user);
+      setRole(session.role);
+      setRoleProfile(session.roleProfile);
+      return session;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   const handleRegister = useCallback(async (params) => {
     setIsLoading(true);
     try {
@@ -127,6 +142,7 @@ export function AuthProvider({ children }) {
     roleProfile,
     isLoading,
     login: handleLogin,
+    loginWithPhone: handleLoginWithPhone,
     register: handleRegister,
     logout: handleLogout,
     resetPassword: handleResetPassword,

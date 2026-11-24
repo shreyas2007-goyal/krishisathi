@@ -188,63 +188,67 @@ app.post('/scraper/extract', async (req, res) => {
   // Truncate extract if excessively long to stay well within token limits (approx 14,000 characters)
   const trimmedText = extract.length > 14000 ? extract.substring(0, 14000) + '\n...[Content truncated for processing]' : extract;
 
-  const systemPrompt = `You are the KisanSAATHI Agricultural Data Extraction Engine.
-Your task is to analyze real Wikipedia article text and extract structured, reliable agricultural records for Indian farmers and krishi officers.
+  const systemPrompt = `You are KisanSAATHI's intelligent Agricultural Data Extraction and Processing Agent.
 
-CRITICAL RULES:
-1. ONLY extract information that is explicitly stated in the provided Wikipedia text.
-2. NEVER invent, fabricate, hallucinate, or extrapolate missing statistics, market prices, yields, or citations.
-3. If an attribute is not discussed in the text, return an empty array [] or null.
-4. Clean away Wikipedia citation marks (such as [1], [2], [citation needed]).
-5. Categorize into one of: 'Crop Information', 'Crop Diseases', 'Soil Information', 'Farming Techniques', 'Agricultural Pests', 'Agricultural Knowledge'.
-6. Return valid, well-formed JSON matching the specified schema.`;
+Your primary responsibility is to process information retrieved from Wikipedia and other authorized agricultural information sources, identify useful agricultural knowledge, extract relevant facts, remove unnecessary content and return structured, source-linked records.
 
-  const userPrompt = `Target Topic: ${title}
+CORE DIRECTIVES:
+1. Analyze retrieved article content thoroughly.
+2. Identify relevant agricultural information.
+3. Extract useful facts and entities with confidence ('high', 'medium', 'low') and direct evidence_text from source.
+4. Categorize information into one of: 'Crop Information', 'Crop Varieties', 'Crop Cultivation', 'Soil Information', 'Plant Diseases', 'Agricultural Pests', 'Irrigation Methods', 'Fertilizers', 'Organic Farming', 'Seeds', 'Agricultural Equipment', 'Farming Techniques', 'Plant Science', 'Agricultural Terminology', 'General Agricultural Knowledge'.
+5. Remove irrelevant, repetitive, formatting, or navigational text.
+6. Detect incomplete, ambiguous, or safety-critical information (pesticides, fertilizers, disease treatments).
+7. Flag treatment recommendations requiring ICAR, agricultural university, or government verification.
+8. NEVER fabricate facts, imaginary scientific names, crop statistics, or citations. Mark missing as null or [].
+9. Return valid JSON strictly matching the requested schema.`;
+
+  const userPrompt = `Target Article: ${title}
 Assigned Category: ${category}
 Language: ${language}
 Source URL: ${url}
 Revision ID: ${revisionId}
 Revision Timestamp: ${revisionTimestamp}
 
---- WIKIPEDIA ARTICLE EXTRACT ---
+--- SOURCE TEXT (WIKIPEDIA EXTRACT) ---
 ${trimmedText}
----------------------------------
+---------------------------------------
 
-Extract and format the agricultural data into this EXACT JSON structure:
+Extract the agricultural knowledge into this EXACT JSON structure:
 {
-  "title": "${title}",
+  "relevant": true,
+  "article_title": "${title}",
   "category": "${category}",
   "language": "${language}",
-  "is_relevant": true,
-  "summary": "Concise 2-3 sentence overview of this agricultural topic based on the text.",
-  "crop_name": "Common crop name if applicable, or null",
-  "scientific_name": "Botanical/scientific name if present, or null",
-  "varieties": ["List of varieties mentioned in text"],
-  "growing_conditions": ["Climate, temperature, rainfall, or altitude requirements"],
-  "soil_requirements": ["Soil types, pH, drainage requirements"],
-  "cultivation_methods": ["Sowing, spacing, weeding, harvesting practices"],
-  "growing_seasons": ["Rabi, Kharif, Zaid or calendar seasons mentioned"],
-  "disease_details": {
-    "disease_name": "Name of disease if applicable, or null",
-    "affected_crops": ["List of crops affected"],
-    "symptoms": ["Specific visible symptoms"],
-    "causes": ["Pathogen, fungus, bacteria, or abiotic causes"],
-    "prevention_and_management": ["Recommended control or cultural practices"]
+  "summary": "Concise 2-3 sentence overview of this agricultural topic based strictly on the text.",
+  "entities": [
+    {
+      "name": "Entity name (crop, pest, disease, tool, soil type)",
+      "type": "Crop | Pest | Pathogen | Equipment | Chemical | Soil",
+      "scientific_name": "Scientific/botanical name if stated, otherwise null"
+    }
+  ],
+  "extracted_information": [
+    {
+      "heading": "Clear descriptive topic heading (e.g. Sowing Season, Pest Management, Soil pH)",
+      "information": "Specific factual summary extracted from source",
+      "evidence_text": "Direct quote or close factual excerpt from the source text",
+      "confidence": "high"
+    }
+  ],
+  "agricultural_topics": ["List of core farming concepts covered"],
+  "keywords": ["List of search keywords"],
+  "verification_required": true,
+  "verification_reason": ["Reasons requiring human/ICAR review, e.g. chemical dosages, regional variations"],
+  "source": {
+    "name": "Wikipedia",
+    "url": "${url || `https://${language === 'Hindi' ? 'hi' : 'en'}.wikipedia.org/wiki/${encodeURIComponent(title)}`}",
+    "page_id": "${pageId || ''}",
+    "revision_id": "${revisionId || ''}",
+    "revision_timestamp": "${revisionTimestamp || new Date().toISOString()}",
+    "retrieved_at": "${new Date().toISOString()}"
   },
-  "pest_details": {
-    "pest_name": "Pest name if applicable, or null",
-    "affected_crops": ["Crops attacked"],
-    "damage_symptoms": ["Type of damage"],
-    "prevention_and_control": ["Control measures"]
-  },
-  "soil_details": {
-    "soil_type": "Soil classification name, or null",
-    "properties": ["Texture, nutrients, water retention"],
-    "agricultural_suitability": ["Best suited crops"]
-  },
-  "farming_techniques": ["Irrigation, crop rotation, organic methods, or specific practices discussed"],
-  "key_facts": ["Bullet points of important agricultural takeaways"],
-  "verification_status": "pending_review"
+  "processing_status": "pending_review"
 }`;
 
   try {
@@ -291,27 +295,29 @@ Extract and format the agricultural data into this EXACT JSON structure:
     // Create unique Document ID
     const docId = `agri_${langCodeFor(language)}_${pageId || title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_r${revisionId || 'latest'}`;
 
-    // Full finalized Agricultural Knowledge record
+    // Full finalized Agricultural Knowledge record matching Master Schema
     const completeRecord = {
       id: docId,
       documentId: docId,
-      title: structuredJson.title || title,
+      relevant: structuredJson.relevant !== false,
+      title: structuredJson.article_title || structuredJson.title || title,
+      article_title: structuredJson.article_title || structuredJson.title || title,
       category: structuredJson.category || category,
       language: language,
       summary: structuredJson.summary || 'Summary unavailable',
+      entities: structuredJson.entities || [],
+      extracted_information: structuredJson.extracted_information || [],
+      agricultural_topics: structuredJson.agricultural_topics || [],
+      keywords: structuredJson.keywords || [],
+      verification_required: structuredJson.verification_required !== false,
+      verification_reason: structuredJson.verification_reason || [],
       extractedData: {
-        crop_name: structuredJson.crop_name || null,
-        scientific_name: structuredJson.scientific_name || null,
-        varieties: structuredJson.varieties || [],
-        growing_conditions: structuredJson.growing_conditions || [],
-        soil_requirements: structuredJson.soil_requirements || [],
-        cultivation_methods: structuredJson.cultivation_methods || [],
-        growing_seasons: structuredJson.growing_seasons || [],
-        disease_details: structuredJson.disease_details || null,
-        pest_details: structuredJson.pest_details || null,
-        soil_details: structuredJson.soil_details || null,
-        farming_techniques: structuredJson.farming_techniques || [],
-        key_facts: structuredJson.key_facts || [],
+        crop_name: (structuredJson.entities || []).find((e) => e.type === 'Crop')?.name || null,
+        scientific_name: (structuredJson.entities || []).find((e) => e.scientific_name)?.scientific_name || null,
+        entities: structuredJson.entities || [],
+        extracted_information: structuredJson.extracted_information || [],
+        agricultural_topics: structuredJson.agricultural_topics || [],
+        keywords: structuredJson.keywords || [],
       },
       source: {
         name: 'Wikipedia',
@@ -319,12 +325,14 @@ Extract and format the agricultural data into this EXACT JSON structure:
         page_id: String(pageId || ''),
         revision_id: String(revisionId || ''),
         revision_timestamp: revisionTimestamp || new Date().toISOString(),
+        retrieved_at: new Date().toISOString(),
         license: 'Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)',
         attribution: 'Extracted from Wikipedia under CC BY-SA 4.0 license.',
       },
       contentHash,
-      verificationStatus: 'pending_review', // Initially pending admin review
-      isRelevant: structuredJson.is_relevant !== false,
+      verificationStatus: 'pending_review',
+      processing_status: 'pending_review',
+      isRelevant: structuredJson.relevant !== false,
       extractedAt: new Date().toISOString(),
       processedByModel: 'gpt-4o-mini',
       createdAt: new Date().toISOString(),
@@ -357,7 +365,95 @@ function langCodeFor(lang) {
 }
 
 // =========================================================================
-// 3. KNOWLEDGE STORE & ADMIN REVIEW ENDPOINTS
+// 3. REVISION COMPARISON & DIFF ENGINE
+// =========================================================================
+
+/**
+ * Compare Two Wikipedia Article Revisions (Revision Diff & Agricultural Delta Analysis)
+ * POST /scraper/compare-revisions
+ * Body: { articleTitle, oldContent, newContent, oldRevId, newRevId }
+ */
+app.post('/scraper/compare-revisions', async (req, res) => {
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ error: 'OPENAI_API_KEY is not configured on the server.' });
+  }
+
+  const { articleTitle, oldContent, newContent, oldRevId, newRevId } = req.body || {};
+  if (!oldContent || !newContent) {
+    return res.status(400).json({ error: 'Both oldContent and newContent are required for revision comparison.' });
+  }
+
+  const systemPrompt = `You are KisanSAATHI's Agricultural Revision Comparison Agent.
+Your responsibility is to analyze two versions of an agricultural Wikipedia article, identify what changed, and flag potential agricultural or safety implications.
+
+RULES:
+1. Identify added agricultural information.
+2. Identify removed agricultural information.
+3. Identify modified claims, numbers, yields, or dates.
+4. Identify changes in scientific or botanical terminology.
+5. Identify potentially critical agricultural changes (e.g. chemical/pesticide dosage, disease treatments).
+6. Report changes neutrally without assuming the newer revision is necessarily scientifically correct.
+7. Return valid JSON only.`;
+
+  const userPrompt = `Article: ${articleTitle || 'Agricultural Article'}
+Old Revision: #${oldRevId || 'Version A'}
+New Revision: #${newRevId || 'Version B'}
+
+--- OLD VERSION EXTRACT ---
+${oldContent.substring(0, 7000)}
+
+--- NEW VERSION EXTRACT ---
+${newContent.substring(0, 7000)}
+
+Return JSON with this exact structure:
+{
+  "article_title": "${articleTitle || ''}",
+  "old_revision": "${oldRevId || ''}",
+  "new_revision": "${newRevId || ''}",
+  "summary_of_changes": "Clear summary of what was updated between revisions.",
+  "added_information": ["New points or techniques added in newer version"],
+  "removed_information": ["Claims or sections deleted in newer version"],
+  "modified_claims": ["Statements whose meaning, timing, or figures changed"],
+  "scientific_term_changes": ["Changes in botanical, pest, or pathogen nomenclature"],
+  "agricultural_impact_changes": ["Important changes affecting farming practices, fertilizers, or diseases"],
+  "safety_flag": true,
+  "safety_reason": "Explanation if any treatment or chemical dosage changed"
+}`;
+
+  try {
+    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.1,
+        response_format: { type: 'json_object' },
+      }),
+    });
+
+    if (!openaiRes.ok) {
+      const err = await openaiRes.json();
+      return res.status(openaiRes.status).json({ error: 'OpenAI revision comparison failed', details: err });
+    }
+
+    const data = await openaiRes.json();
+    const parsed = JSON.parse(data.choices?.[0]?.message?.content || '{}');
+    return res.json({ status: 'success', diff: parsed });
+  } catch (err) {
+    console.error('Revision compare error:', err);
+    return res.status(500).json({ error: 'Failed to compare revisions', details: err.message });
+  }
+});
+
+// =========================================================================
+// 4. KNOWLEDGE STORE & ADMIN REVIEW ENDPOINTS
 // =========================================================================
 
 /**

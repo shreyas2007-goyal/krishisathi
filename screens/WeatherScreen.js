@@ -686,7 +686,7 @@ export default function WeatherScreen({ navigation }) {
 
         {/* Footer info & attribution */}
         <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>KisanSAATHI – Digital Krishi Officer</Text>
+          <Text style={styles.footerText}>KisanSAATHI – {lang === 'hi' ? 'कृषि एवं मंडी सेवा' : 'Agriculture & Mandi Support'}</Text>
           <Text style={styles.footerSubText}>
             Weather data powered by Open-Meteo • Geocoding by OpenStreetMap Nominatim
           </Text>

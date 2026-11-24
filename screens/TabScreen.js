@@ -2,7 +2,6 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./HomeScreen";
 import MarketScreen from "./MarketScreen";
-import DiagnosisScreen from "./DiagnosisScreen";
 import CustomTabBar from "../components/CustomTabBar";
 import ChatScreen from "./ChatScreen";
 import ProfileScreen from "./ProfileScreen";
@@ -34,23 +33,12 @@ export default function TabScreen() {
       />
 
       <Tab.Screen
-        name="Diagnosis"
-        component={DiagnosisScreen}
-        options={{
-          tabBarShowLabel: false,
-          headerTitleStyle: { color: 'black', fontWeight: 'bold' },
-          headerTitle: 'Diagnosis',
-          headerShown: true,
-        }}
-      />
-
-      <Tab.Screen
         name="Chat"
         component={ChatScreen}
         options={{
           tabBarShowLabel: false,
           headerTitleStyle: { color: 'black', fontWeight: 'bold' },
-          headerTitle: 'Kissan AI',
+          headerTitle: 'Krishi Sahayak',
           headerShown: true,
         }}
       />

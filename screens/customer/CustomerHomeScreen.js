@@ -161,7 +161,7 @@ export default function CustomerHomeScreen({ navigation }) {
               </Text>
             </View>
             <Text style={styles.sectionSub}>
-              {lang === 'hi' ? 'खेत से सीधे सत्यापित गुणवत्ता वाले उत्पाद' : 'Direct from farm gate with quality certificates'}
+              {lang === 'hi' ? 'किसानों से सीधे ताज़ा कृषि उत्पाद' : 'Direct from farmers across verified mandis'}
             </Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Browse')}>

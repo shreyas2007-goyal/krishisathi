@@ -362,7 +362,13 @@ export default function MarketScreen({ navigation }) {
                       onPress={() => setSelectedCrop(crop)}
                       activeOpacity={0.7}
                     >
-                      <Text style={styles.cropCardIcon}>{crop.icon}</Text>
+                      <View style={{ marginBottom: 4, alignItems: 'center' }}>
+                        <MaterialCommunityIcons
+                          name={crop.icon || 'sprout'}
+                          size={24}
+                          color={isSelected ? '#2E7D32' : '#555'}
+                        />
+                      </View>
                       <Text style={[styles.cropCardName, isSelected && styles.cropCardNameSelected]}>
                         {lang === 'hi' ? crop.nameHi : crop.name}
                       </Text>
@@ -402,7 +408,7 @@ export default function MarketScreen({ navigation }) {
                     </Text>
                     <Text style={styles.stateDropdownSelectedText}>
                       {selectedState === 'All States'
-                        ? (lang === 'hi' ? '🇮🇳 सभी राज्य (पूरा भारत)' : '🇮🇳 All States (Pan India)')
+                        ? (lang === 'hi' ? 'सभी राज्य (पूरा भारत)' : 'All States (Pan India)')
                         : `${selectedState}`}
                     </Text>
                   </View>
@@ -509,7 +515,7 @@ export default function MarketScreen({ navigation }) {
                 {t.mandiPriceResults} ({mandiPrices.length} {lang === 'hi' ? 'मंडियां' : 'Mandis'})
               </Text>
               <Text style={styles.commoditySubtitle}>
-                {selectedCrop.icon} {lang === 'hi' ? selectedCrop.nameHi : selectedCrop.name} • {selectedState}
+                {lang === 'hi' ? selectedCrop.nameHi : selectedCrop.name} • {selectedState}
               </Text>
             </View>
 

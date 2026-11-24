@@ -61,13 +61,13 @@ export default function AuthEntryScreen({ navigation }) {
           </View>
           <Text style={styles.appTitle}>KisanSAATHI</Text>
           <Text style={styles.appSubtitle}>
-            {lang === 'hi' ? 'आपका डिजिटल कृषि अधिकारी' : 'Your Digital Krishi Officer'}
+            {lang === 'hi' ? 'कृषि एवं मंडी सेवा' : 'Agriculture and Mandi Support'}
           </Text>
           <View style={styles.taglineBadge}>
             <Text style={styles.taglineText}>
               {lang === 'hi'
                 ? 'कृषि, मंडी भाव और बेहतर सौदों का संपूर्ण मंच'
-                : 'Your farming and agricultural marketplace companion.'}
+                : 'Farming, Mandi Rates & Agricultural Marketplace.'}
             </Text>
           </View>
         </View>
@@ -75,7 +75,7 @@ export default function AuthEntryScreen({ navigation }) {
         {/* 3 ROLE VALUE PREVIEWS */}
         <View style={styles.rolesPreviewContainer}>
           <Text style={styles.rolesPreviewTitle}>
-            {lang === 'hi' ? 'सभी कृषि हितधारकों के लिए' : 'Empowering Agricultural Stakeholders'}
+            {lang === 'hi' ? 'उपलब्ध सुविधाएं' : 'Available Features'}
           </Text>
 
           <View style={styles.roleMiniCard}>
@@ -86,8 +86,8 @@ export default function AuthEntryScreen({ navigation }) {
               <Text style={styles.roleMiniHeading}>{lang === 'hi' ? 'किसान (Farmer)' : 'Farmer'}</Text>
               <Text style={styles.roleMiniDesc}>
                 {lang === 'hi'
-                  ? 'मौसम, फसल रोग निदान, लाइव मंडी भाव और उपज बिक्री'
-                  : 'Crop health, weather, mandi prices & direct selling'}
+                  ? 'मौसम पूर्वानुमान, कृषि सलाह, लाइव मंडी भाव व उपज बिक्री'
+                  : 'Weather forecasts, farming advisory, live mandi rates & selling'}
               </Text>
             </View>
           </View>

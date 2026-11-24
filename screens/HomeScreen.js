@@ -272,26 +272,34 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
 
-        {/* QUICK ACTION FEATURE CARDS (Kissan AI & AI Diagnosis) */}
+        {/* QUICK ACTION FEATURE CARDS (Krishi Sahayak & Mandi Rates) */}
         <View style={styles.featureRow}>
           <TouchableOpacity
             style={styles.chatButton}
             onPress={() => navigation.navigate('Chat')}
             activeOpacity={0.85}
           >
-            <MaterialCommunityIcons name="robot-outline" size={24} color="#2E7D32" />
-            <Text style={styles.featureTitle}>Kissan AI</Text>
-            <Text style={styles.featureSub}>24/7 Krishi Sahayak</Text>
+            <MaterialCommunityIcons name="chat-question-outline" size={24} color="#1B5E20" />
+            <Text style={styles.featureTitle}>
+              {lang === 'hi' ? 'कृषि सहायक' : 'Krishi Sahayak'}
+            </Text>
+            <Text style={styles.featureSub}>
+              {lang === 'hi' ? 'सलाह एवं समाधान' : 'Farming Advisory'}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.diagnosisButton}
-            onPress={() => navigation.navigate('Diagnosis')}
+            style={styles.marketShortcutButton}
+            onPress={() => navigation.navigate('Market')}
             activeOpacity={0.85}
           >
-            <MaterialCommunityIcons name="camera-outline" size={24} color="#2E7D32" />
-            <Text style={styles.featureTitle}>AI Diagnosis</Text>
-            <Text style={styles.featureSub}>Crop Disease Scan</Text>
+            <MaterialCommunityIcons name="store-outline" size={24} color="#1565C0" />
+            <Text style={styles.featureTitle}>
+              {lang === 'hi' ? 'मंडी भाव' : 'Live Mandi'}
+            </Text>
+            <Text style={styles.featureSub}>
+              {lang === 'hi' ? 'ताजा बाजार दरें' : 'APMC Market Rates'}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -722,7 +730,7 @@ export default function HomeScreen({ navigation }) {
 
         {/* Footer info & attribution */}
         <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>KisanSAATHI – Digital Krishi Officer</Text>
+          <Text style={styles.footerText}>KisanSAATHI – {lang === 'hi' ? 'कृषि एवं मंडी सेवा' : 'Agriculture & Mandi Support'}</Text>
           <Text style={styles.footerSubText}>
             Live Weather powered by Open-Meteo • Geocoding by OpenStreetMap Nominatim
           </Text>
@@ -890,26 +898,30 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   chatButton: {
-    backgroundColor: '#A69CE5',
+    backgroundColor: '#E8F5E9',
     width: '48%',
-    borderRadius: 18,
+    borderRadius: 16,
     padding: 14,
+    borderWidth: 1,
+    borderColor: '#C8E6C9',
     shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOpacity: 0.04,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
   },
-  diagnosisButton: {
-    backgroundColor: '#5992FF',
+  marketShortcutButton: {
+    backgroundColor: '#E3F2FD',
     width: '48%',
-    borderRadius: 18,
+    borderRadius: 16,
     padding: 14,
+    borderWidth: 1,
+    borderColor: '#BBDEFB',
     shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOpacity: 0.04,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
   },
   featureIcon: {
     fontSize: 24,

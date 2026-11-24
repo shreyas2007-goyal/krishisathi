@@ -6,7 +6,6 @@ const windowWidth = Dimensions.get('window').width;
 const ICONS = {
     Home: require('../assets/home.png'),
     Market: require('../assets/basket.png'),
-    Diagnosis: require('../assets/diagnosis.png'),
     Chat: require('../assets/chat.png'),
     Profile: require('../assets/profile.png'),
 };
@@ -16,7 +15,6 @@ function getTabIcon(name) {
     const lower = String(name || '').toLowerCase();
     if (lower.includes('home')) return ICONS.Home;
     if (lower.includes('market') || lower.includes('basket')) return ICONS.Market;
-    if (lower.includes('diag')) return ICONS.Diagnosis;
     if (lower.includes('chat')) return ICONS.Chat;
     if (lower.includes('prof')) return ICONS.Profile;
     return ICONS.Home;

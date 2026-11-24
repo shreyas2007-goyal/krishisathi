@@ -36,7 +36,7 @@ export const translations = {
   en: {
     appName: "KisanSAATHI",
     weatherAndCropAdvisory: "Weather & Crop Advisory",
-    subtitle: "Your Digital Krishi Officer",
+    subtitle: "Agriculture, Weather and Mandi Support",
     detectMyLocation: "Detect My Location",
     detectingLocation: "Detecting your location...",
     searchVillageOrDistrict: "Search village, town or district...",
@@ -132,7 +132,7 @@ export const translations = {
     uvHigh: "High (Wear protection)",
     uvVeryHigh: "Very High (Avoid peak sun)",
 
-    alertAttribution: "Model-Based Predictive Alert (Open-Meteo High-Resolution Model). Cross-check with local IMD/State bulletins.",
+    alertAttribution: "Agro-meteorological advisory. Follow local IMD bulletins.",
 
     // Market Intelligence & Better Deals
     marketTitle: "Market Intelligence & Deals",
@@ -183,7 +183,7 @@ export const translations = {
   hi: {
     appName: "किसान साथी",
     weatherAndCropAdvisory: "मौसम एवं फसल परामर्श",
-    subtitle: "आपका डिजिटल कृषि अधिकारी",
+    subtitle: "कृषि, मौसम एवं मंडी सेवा",
     detectMyLocation: "मेरा स्थान पता करें",
     detectingLocation: "आपका स्थान खोजा जा रहा है...",
     searchVillageOrDistrict: "गाँव, कस्बा या जिला खोजें...",
@@ -279,7 +279,7 @@ export const translations = {
     uvHigh: "उच्च (धूप से बचाव जरूरी)",
     uvVeryHigh: "अत्यधिक तेज (दोपहर में धूप से बचें)",
 
-    alertAttribution: "मौसम मॉडल आधारित चेतावनी (Open-Meteo)। स्थानीय मौसम विभाग (IMD) की आधिकारिक बुलेटिन से भी पुष्टि करें।",
+    alertAttribution: "कृषि मौसम परामर्श। स्थानीय मौसम विभाग (IMD) की सूचनाओं का पालन करें।",
 
     // Market Intelligence & Better Deals
     marketTitle: "मंडी भाव एवं बेहतर सौदे",
@@ -330,7 +330,7 @@ export const translations = {
   pa: {
     appName: "ਕਿਸਾਨ ਸਾਥੀ",
     weatherAndCropAdvisory: "ਮੌਸਮ ਅਤੇ ਫ਼ਸਲ ਸਲਾਹ",
-    subtitle: "ਤੁਹਾਡਾ ਡਿਜੀਟਲ ਖੇਤੀ ਅਧਿਕਾਰੀ",
+    subtitle: "ਖੇਤੀਬਾੜੀ, ਮੌਸਮ ਅਤੇ ਮੰਡੀ ਸੇਵਾ",
     detectMyLocation: "ਮੇਰੀ ਲੋਕੇਸ਼ਨ ਪਤਾ ਕਰੋ",
     detectingLocation: "ਤੁਹਾਡੀ ਲੋਕੇਸ਼ਨ ਲੱਭੀ ਜਾ ਰਹੀ ਹੈ...",
     searchVillageOrDistrict: "ਪਿੰਡ, ਕਸਬਾ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਲੱਭੋ...",
@@ -426,7 +426,7 @@ export const translations = {
     uvHigh: "ਜ਼ਿਆਦਾ",
     uvVeryHigh: "ਬਹੁਤ ਜ਼ਿਆਦਾ",
 
-    alertAttribution: "ਓਪਨ-ਮੀਟੀਓ ਮੌਸਮ ਮਾਡਲ ਅਧਾਰਿਤ ਚਿਤਾਵਨੀ। ਸਰਕਾਰੀ ਮੌਸਮ ਵਿਭਾਗ (IMD) ਤੋਂ ਵੀ ਜਾਂਚ ਕਰੋ।"
+    alertAttribution: "ਖੇਤੀ ਮੌਸਮ ਸਲਾਹ। ਸਥਾਨਕ ਮੌਸਮ ਵਿਭਾਗ (IMD) ਦੀਆਂ ਹਦਾਇਤਾਂ ਦੀ ਪਾਲਣਾ ਕਰੋ।"
   },
 
   // Bengali (বাংলা)

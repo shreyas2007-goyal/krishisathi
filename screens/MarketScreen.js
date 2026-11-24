@@ -321,6 +321,35 @@ export default function MarketScreen({ navigation }) {
         {/* ============================================================== */}
         {activeTab === 'mandi' && (
           <View>
+            {/* B2C DIRECT FARMER-TO-CONSUMER PROMO BANNER */}
+            <TouchableOpacity
+              style={styles.b2cPromoBanner}
+              onPress={() => navigation.navigate('B2CMarketplace')}
+              activeOpacity={0.88}
+            >
+              <View style={styles.b2cPromoLeft}>
+                <View style={styles.b2cPromoTagRow}>
+                  <Text style={styles.b2cPromoTag}>नया B2C प्लेटफार्म • Kisan Direct</Text>
+                  <View style={styles.b2cPromoPill}>
+                    <Text style={styles.b2cPromoPillText}>50kg / 100kg</Text>
+                  </View>
+                </View>
+                <Text style={styles.b2cPromoTitle}>
+                  {lang === 'hi'
+                    ? 'सीधे ग्राहकों को बेचें — 25-40% अधिक मुनाफा'
+                    : 'Sell in 50kg & 100kg Lots directly to Retail Buyers'}
+                </Text>
+                <Text style={styles.b2cPromoDesc}>
+                  {lang === 'hi'
+                    ? 'मंडी कटौती से बचें। 50kg, 1 क्विंटल की बोरियां सीधे परिवारों को बेचें और सीधी चैट करें।'
+                    : 'List your produce in retail lots and chat directly with household buyers.'}
+                </Text>
+              </View>
+              <View style={styles.b2cPromoRight}>
+                <MaterialCommunityIcons name="arrow-right-circle" size={28} color="#FFFFFF" />
+              </View>
+            </TouchableOpacity>
+
             {/* CROP SELECTION SECTION */}
             <View style={styles.cardContainer}>
               <Text style={styles.cardHeaderTitle}>{t.whatCropToSell}</Text>
@@ -1271,6 +1300,63 @@ const styles = StyleSheet.create({
   },
 
   // CARD CONTAINERS
+  b2cPromoBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1B5E20',
+    borderRadius: 14,
+    padding: 12,
+    marginHorizontal: 12,
+    marginBottom: 12,
+    shadowColor: '#1B5E20',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  b2cPromoLeft: {
+    flex: 1,
+    marginRight: 8,
+  },
+  b2cPromoTagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  b2cPromoTag: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#A5D6A7',
+    textTransform: 'uppercase',
+  },
+  b2cPromoPill: {
+    backgroundColor: '#FFD54F',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginLeft: 6,
+  },
+  b2cPromoPillText: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#000000',
+  },
+  b2cPromoTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginBottom: 2,
+  },
+  b2cPromoDesc: {
+    fontSize: 11,
+    color: '#E8F5E9',
+    lineHeight: 14,
+  },
+  b2cPromoRight: {
+    width: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   cardContainer: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,

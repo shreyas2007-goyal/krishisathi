@@ -307,6 +307,42 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* B2C DIRECT SELL CALLOUT (FARMER-TO-CONSUMER) */}
+        <TouchableOpacity
+          style={styles.b2cFarmerCard}
+          onPress={() => navigation.navigate('B2CMarketplace')}
+          activeOpacity={0.88}
+        >
+          <View style={styles.b2cFarmerCardContent}>
+            <View style={styles.b2cFarmerTopRow}>
+              <View style={styles.b2cFarmerIconCircle}>
+                <MaterialCommunityIcons name="handshake" size={20} color="#FFFFFF" />
+              </View>
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.b2cFarmerBadge}>KISAN DIRECT • B2C बाज़ार</Text>
+                  <View style={styles.b2cFarmerQtyPill}>
+                    <Text style={styles.b2cFarmerQtyPillText}>50kg / 100kg</Text>
+                  </View>
+                </View>
+                <Text style={styles.b2cFarmerTitle}>
+                  {lang === 'hi' ? 'सीधे ग्राहकों को बेचें — 25-40% अधिक मुनाफा' : 'Sell in 50kg & 100kg Lots directly to Retail Buyers'}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.b2cFarmerDesc}>
+              {lang === 'hi'
+                ? 'मंडी कटौती से बचें। अपनी 50 kg या 1 क्विंटल की बोरियां लिस्ट करें और स्थानीय परिवारों/दुकानों से सीधी चैट करें।'
+                : 'Cut out middlemen. List your harvest in retail bags and negotiate directly with retail buyers over chat.'}
+            </Text>
+            <View style={styles.b2cFarmerBottomRow}>
+              <Text style={styles.b2cFarmerActionText}>
+                {lang === 'hi' ? 'फसल लिस्ट करें या खरीदार चैट देखें ›' : 'List Harvest & View Buyer Chats ›'}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
         {/* SECTION HEADER: WEATHER & CROP ADVISORY */}
         <View style={styles.sectionHeaderBar}>
           <View style={{ flex: 1 }}>
@@ -895,6 +931,70 @@ const styles = StyleSheet.create({
   },
 
   // QUICK ACTIONS ROW
+  b2cFarmerCard: {
+    backgroundColor: '#1B5E20',
+    borderRadius: 16,
+    padding: 14,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    shadowColor: '#1B5E20',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  b2cFarmerCardContent: {},
+  b2cFarmerTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  b2cFarmerIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.22)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  b2cFarmerBadge: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#A5D6A7',
+    letterSpacing: 0.5,
+  },
+  b2cFarmerQtyPill: {
+    backgroundColor: '#FFD54F',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginLeft: 6,
+  },
+  b2cFarmerQtyPillText: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#000000',
+  },
+  b2cFarmerTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginTop: 2,
+  },
+  b2cFarmerDesc: {
+    fontSize: 11,
+    color: '#E8F5E9',
+    lineHeight: 15,
+    marginVertical: 4,
+  },
+  b2cFarmerBottomRow: {
+    marginTop: 4,
+  },
+  b2cFarmerActionText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFD54F',
+  },
   featureRow: {
     flexDirection: 'row',
     width: '90%',

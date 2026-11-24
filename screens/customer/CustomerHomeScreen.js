@@ -82,6 +82,42 @@ export default function CustomerHomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* B2C DIRECT FARMER-TO-CONSUMER CALLOUT CARD */}
+        <TouchableOpacity
+          style={styles.b2cCalloutCard}
+          onPress={() => navigation.navigate('Direct B2C')}
+          activeOpacity={0.88}
+        >
+          <View style={styles.b2cCalloutContent}>
+            <View style={styles.b2cHeaderRow}>
+              <View style={styles.b2cIconBadge}>
+                <MaterialCommunityIcons name="handshake" size={18} color="#FFFFFF" />
+              </View>
+              <View style={{ flex: 1, marginLeft: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.b2cBadgeTag}>NEW B2C PLATFORM</Text>
+                  <View style={styles.b2cLotSizePill}>
+                    <Text style={styles.b2cLotSizePillText}>50kg / 100kg Lots</Text>
+                  </View>
+                </View>
+                <Text style={styles.b2cTitle}>
+                  {lang === 'hi' ? 'किसान सीधा बाज़ार (Kisan Direct)' : 'Buy Direct from Local Farmers'}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.b2cSubtitle}>
+              {lang === 'hi'
+                ? '50 kg और 1 क्विंटल की बोरियां सीधे खेत से खरीदें। किसान से सीधी चैट और मोलभाव करें!'
+                : 'Purchase household and retail lots directly from verified farmers with instant 1-on-1 negotiation chat.'}
+            </Text>
+            <View style={styles.b2cActionRow}>
+              <Text style={styles.b2cActionLink}>
+                {lang === 'hi' ? 'सीधे किसान लॉट देखें एवं चैट करें ›' : 'Explore Farmer Lots & Chat ›'}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
         {/* METRICS ROW */}
         <View style={styles.metricsContainer}>
           <TouchableOpacity
@@ -516,6 +552,70 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#1E40AF',
+  },
+  b2cCalloutCard: {
+    backgroundColor: '#1565C0',
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 14,
+    shadowColor: '#1565C0',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  b2cCalloutContent: {},
+  b2cHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  b2cIconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  b2cBadgeTag: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#90CAF9',
+    letterSpacing: 0.5,
+  },
+  b2cLotSizePill: {
+    backgroundColor: '#FFD54F',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginLeft: 6,
+  },
+  b2cLotSizePillText: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#000000',
+  },
+  b2cTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginTop: 2,
+  },
+  b2cSubtitle: {
+    fontSize: 11,
+    color: '#E3F2FD',
+    lineHeight: 15,
+    marginVertical: 6,
+  },
+  b2cActionRow: {
+    marginTop: 4,
+    alignSelf: 'flex-start',
+  },
+  b2cActionLink: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFD54F',
   },
   bannerDesc: {
     fontSize: 11,

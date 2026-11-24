@@ -1,16 +1,13 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-// screens/customer/CustomerTabScreen.js
-// KisanSAATHI - Customer / Buyer Bottom Tab Navigation
-
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions }
- from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomerHomeScreen from './CustomerHomeScreen';
 import CustomerBrowseScreen from './CustomerBrowseScreen';
 import CustomerOffersScreen from './CustomerOffersScreen';
-import CustomerHistoryScreen from './CustomerHistoryScreen';
 import CustomerProfileScreen from './CustomerProfileScreen';
+import B2CMarketplaceScreen from '../b2c/B2CMarketplaceScreen';
+import B2CChatsListScreen from '../b2c/B2CChatsListScreen';
 
 const Tab = createBottomTabNavigator();
 const { width: windowWidth } = Dimensions.get('window');
@@ -18,9 +15,9 @@ const { width: windowWidth } = Dimensions.get('window');
 function CustomerCustomTabBar({ state, descriptors, navigation }) {
   const tabs = [
     { name: 'Home', iconName: 'home-variant-outline', activeIconName: 'home-variant', label: 'Home' },
-    { name: 'Browse', iconName: 'store-search-outline', activeIconName: 'store-search', label: 'Browse' },
-    { name: 'My Offers', iconName: 'file-document-edit-outline', activeIconName: 'file-document-edit', label: 'Offers' },
-    { name: 'History', iconName: 'receipt-text-outline', activeIconName: 'receipt-text', label: 'History' },
+    { name: 'Direct B2C', iconName: 'handshake-outline', activeIconName: 'handshake', label: 'Direct B2C' },
+    { name: 'Browse', iconName: 'store-search-outline', activeIconName: 'store-search', label: 'Wholesale' },
+    { name: 'Chats', iconName: 'chat-processing-outline', activeIconName: 'chat-processing', label: 'Chats' },
     { name: 'Profile', iconName: 'account-outline', activeIconName: 'account', label: 'Profile' },
   ];
 
@@ -70,9 +67,9 @@ export default function CustomerTabScreen() {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Home" component={CustomerHomeScreen} />
+      <Tab.Screen name="Direct B2C" component={B2CMarketplaceScreen} />
       <Tab.Screen name="Browse" component={CustomerBrowseScreen} />
-      <Tab.Screen name="My Offers" component={CustomerOffersScreen} />
-      <Tab.Screen name="History" component={CustomerHistoryScreen} />
+      <Tab.Screen name="Chats" component={B2CChatsListScreen} />
       <Tab.Screen name="Profile" component={CustomerProfileScreen} />
     </Tab.Navigator>
   );
@@ -108,13 +105,6 @@ const styles = StyleSheet.create({
   },
   tabItemActive: {
     backgroundColor: '#EFF6FF',
-  },
-  tabIcon: {
-    fontSize: 18,
-    opacity: 0.6,
-  },
-  tabIconActive: {
-    opacity: 1,
   },
   tabLabel: {
     fontSize: 10,

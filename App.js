@@ -23,6 +23,11 @@ import CustomerTabScreen from './screens/customer/CustomerTabScreen'; // Custome
 import MandiOwnerTabScreen from './screens/mandi/MandiOwnerTabScreen'; // Mandi Owner Flow
 import DataScraperScreen from './screens/admin/DataScraperScreen'; // Data Scraper Bot (Admin)
 
+// B2C Direct Platform & Farmer-Customer Chat
+import B2CMarketplaceScreen from './screens/b2c/B2CMarketplaceScreen';
+import B2CChatDetailScreen from './screens/b2c/B2CChatDetailScreen';
+import B2CChatsListScreen from './screens/b2c/B2CChatsListScreen';
+
 const Stack = createNativeStackNavigator();
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
@@ -73,6 +78,11 @@ function AppNavigator() {
             )}
             {/* Dedicated Internal Administration: KisanSAATHI Data Scraper */}
             <Stack.Screen name="DataScraper" component={DataScraperScreen} />
+
+            {/* B2C Direct Farmer-to-Consumer & Negotiation Chat Stack */}
+            <Stack.Screen name="B2CMarketplace" component={B2CMarketplaceScreen} />
+            <Stack.Screen name="B2CChatDetail" component={B2CChatDetailScreen} />
+            <Stack.Screen name="B2CChatsList" component={B2CChatsListScreen} />
           </Stack.Group>
         )}
       </Stack.Navigator>

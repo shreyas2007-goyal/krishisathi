@@ -582,6 +582,15 @@ service cloud.firestore {
         (!('ownerUid' in resource.data) || resource.data.ownerUid == request.auth.uid);
     }
 
+    // 8. Agricultural Knowledge Base (/agricultural_knowledge/{docId})
+    // Extracted from Wikipedia via KisanSAATHI Scraper Bot
+    // Read: Authenticated users can read all records (or public if approved)
+    // Write: Authenticated users can write/update when maintaining knowledge
+    match /agricultural_knowledge/{docId} {
+      allow read: if isAuthenticated() || (resource.data.verificationStatus == 'approved');
+      allow write: if isAuthenticated();
+    }
+
     // ===============================================================
     // Global Default Deny
     // ===============================================================

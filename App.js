@@ -21,6 +21,7 @@ import RegisterScreen from './screens/auth/RegisterScreen';
 import TabScreen from './screens/TabScreen'; // Farmer Flow
 import CustomerTabScreen from './screens/customer/CustomerTabScreen'; // Customer/Buyer Flow
 import MandiOwnerTabScreen from './screens/mandi/MandiOwnerTabScreen'; // Mandi Owner Flow
+import DataScraperScreen from './screens/admin/DataScraperScreen'; // Data Scraper Bot (Admin)
 
 const Stack = createNativeStackNavigator();
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
@@ -70,6 +71,8 @@ function AppNavigator() {
               // Farmer Experience (Default & Primary)
               <Stack.Screen name="FarmerDashboard" component={TabScreen} />
             )}
+            {/* Dedicated Internal Administration: KisanSAATHI Data Scraper */}
+            <Stack.Screen name="DataScraper" component={DataScraperScreen} />
           </Stack.Group>
         )}
       </Stack.Navigator>

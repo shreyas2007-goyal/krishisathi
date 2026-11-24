@@ -1,0 +1,194 @@
+[
+  {
+    "id": "agri_hi_25446_r6504196",
+    "documentId": "agri_hi_25446_r6504196",
+    "title": "सरसों",
+    "category": "Crop Information",
+    "language": "Hindi",
+    "summary": "सरसों एक द्विबीजपत्री, एकवर्षीय शाक जातीय पौधा है जिसका वैज्ञानिक नाम ब्रेसिका कम्प्रेसटिस है। इसकी खेती भारत के विभिन्न राज्यों में की जाती है और इसका तेल भोजन पकाने के साथ-साथ कीटाणु नाशक के रूप में भी उपयोग होता है।",
+    "extractedData": {
+      "crop_name": "सरसों",
+      "scientific_name": "ब्रेसिका कम्प्रेसटिस",
+      "varieties": [],
+      "growing_conditions": [],
+      "soil_requirements": [
+        "दोमट मिट्टी"
+      ],
+      "cultivation_methods": [
+        "दिसम्बर में बोई जाती है",
+        "मार्च-अप्रैल में कटाई होती है"
+      ],
+      "growing_seasons": [
+        "रबी"
+      ],
+      "disease_details": {
+        "disease_name": null,
+        "affected_crops": [],
+        "symptoms": [],
+        "causes": [],
+        "prevention_and_management": []
+      },
+      "pest_details": {
+        "pest_name": null,
+        "affected_crops": [],
+        "damage_symptoms": [],
+        "prevention_and_control": []
+      },
+      "soil_details": {
+        "soil_type": null,
+        "properties": [],
+        "agricultural_suitability": []
+      },
+      "farming_techniques": [],
+      "key_facts": [
+        "सरसों का वैज्ञानिक नाम ब्रेसिका कम्प्रेसटिस है",
+        "पौधे की ऊँचाई १ से ३ फुट होती है",
+        "फूलों में ओवरी सुपीरियर होती है",
+        "फलियाँ पकने पर फट जाती हैं और बीज जमीन पर गिर जाते हैं",
+        "भारत में इसकी खेती पंजाब, राजस्थान, उत्तर प्रदेश, बिहार, पश्चिम बंगाल और गुजरात में होती है"
+      ]
+    },
+    "source": {
+      "name": "Wikipedia",
+      "url": "https://hi.wikipedia.org/wiki/%E0%A4%B8%E0%A4%B0%E0%A4%B8%E0%A5%8B%E0%A4%82",
+      "page_id": "25446",
+      "revision_id": "6504196",
+      "revision_timestamp": "2025-12-16T05:04:51Z",
+      "license": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "attribution": "Extracted from Wikipedia under CC BY-SA 4.0 license."
+    },
+    "contentHash": "8ef105105ed29c4c5645a644cfb9a7f42d255c2d2f0b4817b8dcbfb9253a82c7",
+    "verificationStatus": "pending_review",
+    "isRelevant": true,
+    "extractedAt": "2026-11-24T22:27:09.992Z",
+    "processedByModel": "gpt-4o-mini",
+    "createdAt": "2026-11-24T22:27:09.992Z",
+    "updatedAt": "2026-11-24T22:27:09.992Z"
+  },
+  {
+    "id": "agri_en_46470_r1382035952",
+    "documentId": "agri_en_46470_r1382035952",
+    "title": "Crop rotation",
+    "category": "Farming Techniques",
+    "language": "English",
+    "summary": "Crop rotation is the practice of growing different types of crops in the same area across a sequence of growing seasons. This technique helps reduce reliance on specific nutrients and minimizes pest and weed pressure.",
+    "extractedData": {
+      "crop_name": null,
+      "scientific_name": null,
+      "varieties": [],
+      "growing_conditions": [],
+      "soil_requirements": [],
+      "cultivation_methods": [],
+      "growing_seasons": [],
+      "disease_details": {
+        "disease_name": null,
+        "affected_crops": [],
+        "symptoms": [],
+        "causes": [],
+        "prevention_and_management": []
+      },
+      "pest_details": {
+        "pest_name": null,
+        "affected_crops": [],
+        "damage_symptoms": [],
+        "prevention_and_control": []
+      },
+      "soil_details": {
+        "soil_type": null,
+        "properties": [],
+        "agricultural_suitability": []
+      },
+      "farming_techniques": [
+        "Crop rotation"
+      ],
+      "key_facts": [
+        "Reduces reliance on one set of nutrients.",
+        "Minimizes pest and weed pressure.",
+        "Improves soil structure and organic matter.",
+        "Reduces erosion and increases farm system resilience."
+      ]
+    },
+    "source": {
+      "name": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Crop_rotation",
+      "page_id": "46470",
+      "revision_id": "1382035952",
+      "revision_timestamp": "2026-10-26T04:22:38Z",
+      "license": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "attribution": "Extracted from Wikipedia under CC BY-SA 4.0 license."
+    },
+    "contentHash": "0856dab5c7e2760e3ad80cbf13975713c94de677ff6f949153a6f9a1f261c8fc",
+    "verificationStatus": "approved",
+    "isRelevant": true,
+    "extractedAt": "2026-11-24T22:26:58.114Z",
+    "processedByModel": "gpt-4o-mini",
+    "createdAt": "2026-11-24T22:26:58.114Z",
+    "updatedAt": "2026-11-24T22:26:58.130Z",
+    "verifiedAt": "2026-11-24T22:26:58.129Z"
+  },
+  {
+    "id": "agri_en_36858_r1383635584",
+    "documentId": "agri_en_36858_r1383635584",
+    "title": "Wheat",
+    "category": "Crop Information",
+    "language": "English",
+    "summary": "Wheat is a group of wild and domesticated grasses cultivated for their grains, which serve as staple foods globally. It is the leading source of vegetable proteins in human food and has a significant role in global agriculture and trade.",
+    "extractedData": {
+      "crop_name": "Wheat",
+      "scientific_name": "Triticum",
+      "varieties": [
+        "Common wheat (T. aestivum)",
+        "spelt",
+        "durum",
+        "emmer",
+        "einkorn",
+        "Khorasan",
+        "Kamut"
+      ],
+      "growing_conditions": [],
+      "soil_requirements": [],
+      "cultivation_methods": [],
+      "growing_seasons": [],
+      "disease_details": {
+        "disease_name": null,
+        "affected_crops": [],
+        "symptoms": [],
+        "causes": [],
+        "prevention_and_management": []
+      },
+      "pest_details": {
+        "pest_name": null,
+        "affected_crops": [],
+        "damage_symptoms": [],
+        "prevention_and_control": []
+      },
+      "soil_details": {
+        "soil_type": null,
+        "properties": [],
+        "agricultural_suitability": []
+      },
+      "farming_techniques": [],
+      "key_facts": [
+        "Wheat is grown on 219.5 million hectares globally.",
+        "World wheat production in 2024 was 799 million tonnes.",
+        "Wheat has a protein content of about 13%."
+      ]
+    },
+    "source": {
+      "name": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wheat",
+      "page_id": "36858",
+      "revision_id": "1383635584",
+      "revision_timestamp": "2026-11-03T21:10:51Z",
+      "license": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "attribution": "Extracted from Wikipedia under CC BY-SA 4.0 license."
+    },
+    "contentHash": "fb3cde486fd8906d3f5e407b39cacb5128e5a5b4844ef60718aeb7e1ba64aca6",
+    "verificationStatus": "pending_review",
+    "isRelevant": true,
+    "extractedAt": "2026-11-24T22:23:01.164Z",
+    "processedByModel": "gpt-4o-mini",
+    "createdAt": "2026-11-24T22:23:01.164Z",
+    "updatedAt": "2026-11-24T22:23:01.164Z"
+  }
+]

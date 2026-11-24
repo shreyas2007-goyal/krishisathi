@@ -40,7 +40,7 @@ function AppNavigator() {
           />
         </View>
         <Text style={styles.splashTitle}>KisanSAATHI</Text>
-        <Text style={styles.splashSubtitle}>Your Digital Krishi Officer</Text>
+        <Text style={styles.splashSubtitle}>कृषि एवं मंडी सेवा</Text>
         <ActivityIndicator size="large" color="#1B5E20" style={{ marginTop: 24 }} />
       </View>
     );

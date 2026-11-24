@@ -54,7 +54,7 @@ export default function AuthEntryScreen({ navigation }) {
         <View style={styles.heroSection}>
           <View style={styles.logoCircle}>
             <Image
-              source={require('../../assets/farm.png')}
+              source={require('../../assets/kisansaathi_logo.png')}
               style={styles.logoImage}
               resizeMode="contain"
             />

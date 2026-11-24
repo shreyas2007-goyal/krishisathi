@@ -258,13 +258,17 @@ export default function HomeScreen({ navigation }) {
         contentContainerStyle={styles.scrollContent}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#2E7D32']} />}
       >
-        {/* TOP PROFILE HEADER */}
+        {/* TOP BRANDING & PROFILE HEADER */}
         <View style={styles.topProfileBar}>
           <View style={styles.topLeftView}>
-            <Image source={require('../assets/user.jpg')} style={styles.userAvatar} />
+            <Image
+              source={require('../assets/kisansaathi_logo.png')}
+              style={styles.brandLogoHeader}
+              resizeMode="contain"
+            />
             <View style={styles.userView}>
-              <Text style={styles.userName}>{user?.fullName || 'Farmer'}</Text>
-              <Text style={styles.greetingText}>{greeting}</Text>
+              <Text style={styles.brandTitleText}>KisanSAATHI</Text>
+              <Text style={styles.greetingText}>{user?.fullName || 'Farmer'} • {greeting}</Text>
             </View>
           </View>
           <View style={styles.topRightView}>
@@ -856,25 +860,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  userAvatar: {
+  brandLogoHeader: {
     width: 48,
     height: 48,
-    borderRadius: 12,
-    objectFit: 'cover',
+    borderRadius: 24,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#C8E6C9',
   },
   userView: {
     flexDirection: 'column',
     marginLeft: 10,
   },
-  userName: {
+  brandTitleText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#212121',
+    color: '#1B5E20',
   },
   greetingText: {
     marginTop: 2,
-    fontSize: 14,
-    color: '#757575',
+    fontSize: 13,
+    color: '#555555',
   },
   topRightView: {
     backgroundColor: '#E4E4E4',

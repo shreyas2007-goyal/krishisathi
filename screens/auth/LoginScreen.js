@@ -149,12 +149,21 @@ export default function LoginScreen({ navigation, route }) {
       resizeMode="cover"
     >
       <SafeAreaView style={styles.safeArea}>
-        {/* TOP BAR OVERLAY */}
+        {/* TOP BAR OVERLAY WITH KISANSAATHI LOGO */}
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn} activeOpacity={0.8}>
-            <MaterialCommunityIcons name="chevron-left" size={24} color="#FFFFFF" />
-            <Text style={styles.backBtnText}>{lang === 'hi' ? 'वापस' : 'Back'}</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn} activeOpacity={0.8}>
+              <MaterialCommunityIcons name="chevron-left" size={22} color="#FFFFFF" />
+            </TouchableOpacity>
+            <View style={styles.topCornerBrandBox}>
+              <Image
+                source={require('../../assets/kisansaathi_logo.png')}
+                style={styles.topCornerLogo}
+                resizeMode="contain"
+              />
+              <Text style={styles.topCornerBrandName}>KisanSAATHI</Text>
+            </View>
+          </View>
 
           {/* Quick Demo Fill & Language Switcher */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -485,6 +494,27 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     marginLeft: 2,
+  },
+  topCornerBrandBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.35)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  topCornerLogo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+  },
+  topCornerBrandName: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 13,
+    marginLeft: 6,
+    letterSpacing: 0.3,
   },
   demoFillBtn: {
     flexDirection: 'row',

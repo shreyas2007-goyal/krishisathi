@@ -268,6 +268,11 @@ export default function MarketScreen({ navigation }) {
     <SafeAreaView style={styles.safeArea}>
       {/* HEADER BAR */}
       <View style={styles.headerBar}>
+        <Image
+          source={require('../assets/kisansaathi_logo.png')}
+          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10, borderWidth: 1, borderColor: '#C8E6C9' }}
+          resizeMode="contain"
+        />
         <View style={{ flex: 1 }}>
           <Text style={styles.headerTitle}>{t.marketTitle}</Text>
           <Text style={styles.headerSubtitle}>{t.marketSubtitle}</Text>

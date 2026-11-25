@@ -477,7 +477,7 @@ export default function HomeScreen({ navigation }) {
           >
             <MaterialCommunityIcons name="handshake" size={24} color="#1B5E20" />
             <Text style={styles.secondaryTileTitle}>
-              {lang === 'hi' ? 'फसल बेचें\n(Sell Produce)' : 'Sell Your\nProduce'}
+              {'फसल बेचें\n(Sell Produce)'}
             </Text>
           </TouchableOpacity>
 
@@ -488,7 +488,7 @@ export default function HomeScreen({ navigation }) {
           >
             <MaterialCommunityIcons name="cash-check" size={24} color="#1B5E20" />
             <Text style={styles.secondaryTileTitle}>
-              {lang === 'hi' ? 'बेहतर सौदे\n(Better Deals)' : 'Better\nDeals'}
+              {'बेहतर सौदे\n(Better Deals)'}
             </Text>
           </TouchableOpacity>
 
@@ -499,7 +499,7 @@ export default function HomeScreen({ navigation }) {
           >
             <MaterialCommunityIcons name="robot-happy-outline" size={24} color="#1B5E20" />
             <Text style={styles.secondaryTileTitle}>
-              {lang === 'hi' ? 'AI कृषि\nसहायक' : 'AI Krishi\nAssistant'}
+              {'AI कृषि सहायक\n(AI Assistant)'}
             </Text>
           </TouchableOpacity>
         </View>

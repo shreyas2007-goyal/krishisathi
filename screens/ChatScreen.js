@@ -15,7 +15,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 
-const WebRTC = Platform.OS === 'web' ? null : require('react-native-webrtc');
+let WebRTC = null;
+if (Platform.OS !== 'web') {
+  try {
+    WebRTC = require('react-native-webrtc');
+  } catch (e) {
+    WebRTC = null;
+  }
+}
 
 function FormattedAssistantMessage({ content }) {
   return (
@@ -78,6 +85,11 @@ export default function ChatScreen() {
 
     let cancelled = false;
     const requestMicrophone = async () => {
+      if (Platform.OS !== 'web' && !WebRTC?.mediaDevices) {
+        setMicEnabled(false);
+        setVoiceStatus('Voice mode requires Expo Dev Client (text chat works in Expo Go)');
+        return;
+      }
       setVoiceStatus('Requesting microphone access...');
       try {
         const stream = Platform.OS === 'web'

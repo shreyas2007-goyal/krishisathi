@@ -184,7 +184,8 @@ export default function ProfileScreen({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
+    </ScrollView>
 
       {/* 22 SCHEDULED LANGUAGES SELECTION MODAL */}
       <Modal

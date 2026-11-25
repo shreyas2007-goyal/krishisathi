@@ -42,6 +42,13 @@ import {
   getPreferredLanguage,
 } from '../services/weatherStorage';
 import { useAuth } from '../services/AuthContext';
+import {
+  getNotifications,
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+  deleteNotification,
+  getUnreadCount,
+} from '../services/notificationService';
 
 const { width: windowWidth } = Dimensions.get('window');
 

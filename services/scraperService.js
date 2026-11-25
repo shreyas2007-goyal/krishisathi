@@ -21,20 +21,11 @@ const LOCAL_KNOWLEDGE_KEY = '@kisansaathi_agri_knowledge';
 
 export const AGRICULTURAL_CATEGORIES = [
   { id: 'Crop Information', nameEn: 'Crop Information', nameHi: 'फसल जानकारी', icon: 'sprout-outline' },
-  { id: 'Crop Varieties', nameEn: 'Crop Varieties', nameHi: 'फसल किस्में (Varieties)', icon: 'seed-outline' },
-  { id: 'Crop Cultivation', nameEn: 'Crop Cultivation', nameHi: 'फसल उत्पादन विधि', icon: 'barley' },
+  { id: 'Crop Diseases', nameEn: 'Crop Diseases', nameHi: 'फसल रोग व उपचार', icon: 'shield-alert-outline' },
   { id: 'Soil Information', nameEn: 'Soil Information', nameHi: 'मृदा व मिट्टी विज्ञान', icon: 'terrain' },
-  { id: 'Plant Diseases', nameEn: 'Plant Diseases', nameHi: 'पौध रोग व निदान', icon: 'shield-alert-outline' },
-  { id: 'Agricultural Pests', nameEn: 'Agricultural Pests', nameHi: 'कृषि कीट व नियंत्रण', icon: 'bug-outline' },
-  { id: 'Irrigation Methods', nameEn: 'Irrigation Methods', nameHi: 'सिंचाई विधियां', icon: 'water-pump' },
-  { id: 'Fertilizers', nameEn: 'Fertilizers', nameHi: 'उर्वरक व खाद', icon: 'flask-round-bottom-outline' },
-  { id: 'Organic Farming', nameEn: 'Organic Farming', nameHi: 'जैविक व प्राकृतिक खेती', icon: 'leaf' },
-  { id: 'Seeds', nameEn: 'Seeds', nameHi: 'बीज व अंकुरण', icon: 'seed' },
-  { id: 'Agricultural Equipment', nameEn: 'Agricultural Equipment', nameHi: 'कृषि यंत्र व उपकरण', icon: 'tractor' },
-  { id: 'Farming Techniques', nameEn: 'Farming Techniques', nameHi: 'उन्नत कृषि तकनीकें', icon: 'tools' },
-  { id: 'Plant Science', nameEn: 'Plant Science', nameHi: 'पादप विज्ञान व वनस्पति', icon: 'flower-pollen' },
-  { id: 'Agricultural Terminology', nameEn: 'Agricultural Terminology', nameHi: 'कृषि शब्दावली', icon: 'book-open-outline' },
-  { id: 'General Agricultural Knowledge', nameEn: 'General Agricultural Knowledge', nameHi: 'सामान्य कृषि ज्ञान', icon: 'school-outline' },
+  { id: 'Farming Techniques', nameEn: 'Farming Techniques', nameHi: 'उन्नत कृषि तकनीकें', icon: 'water-pump' },
+  { id: 'Agricultural Pests', nameEn: 'Agricultural Pests', nameHi: 'कीट व रोकथाम', icon: 'bug-outline' },
+  { id: 'Agricultural Knowledge', nameEn: 'Agricultural Knowledge', nameHi: 'कृषि शब्दावली व ज्ञान', icon: 'book-open-outline' },
 ];
 
 export const PRESET_TOPICS = [
@@ -228,21 +219,4 @@ export async function getScraperStats() {
     categories: {},
     lastUpdated: new Date().toISOString(),
   };
-}
-
-/**
- * 8. Compare Two Wikipedia Revisions (Diff Engine)
- */
-export async function compareArticleRevisions(payload) {
-  const url = `${BASE_URL}/scraper/compare-revisions`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || `Revision comparison failed (HTTP ${res.status})`);
-  }
-  return await res.json();
 }

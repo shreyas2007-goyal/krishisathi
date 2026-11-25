@@ -8,7 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "node --test tests/runTests.js",
+    "test": "node --test",
     "lint:syntax": "node -e \"const fs=require('fs'),babel=require('@babel/core');['App.js','screens/HomeScreen.js','screens/ProfileScreen.js','screens/web3/Web3TraceabilityScreen.js','screens/b2c/B2CMarketplaceScreen.js'].forEach(f=>babel.transformSync(fs.readFileSync(f,'utf8'),{presets:['babel-preset-expo'],filename:f}));console.log('Syntax OK');\""
   },
   "dependencies": {

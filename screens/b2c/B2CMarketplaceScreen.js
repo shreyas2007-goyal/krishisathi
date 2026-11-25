@@ -185,6 +185,15 @@ export default function B2CMarketplaceScreen({ navigation }) {
           </Text>
         </View>
 
+        {/* WEB3 TRACEABILITY BUTTON */}
+        <TouchableOpacity
+          style={[styles.chatNavButton, { backgroundColor: '#1A237E', marginRight: 8 }]}
+          onPress={() => navigation.navigate('Web3Traceability')}
+          activeOpacity={0.8}
+        >
+          <MaterialCommunityIcons name="cube-outline" size={22} color="#FFFFFF" />
+        </TouchableOpacity>
+
         {/* INBOX / CHAT BUTTON */}
         <TouchableOpacity
           style={styles.chatNavButton}

@@ -24,6 +24,7 @@ import {
   sendB2CMessage,
   generateFarmerReplyText,
 } from '../../services/b2cMarketService';
+import { createSmartEscrowDeal } from '../../services/web3Service';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -126,10 +127,23 @@ export default function B2CChatDetailScreen({ route, navigation }) {
     });
   };
 
-  const handleConfirmDeal = () => {
+  const handleConfirmDeal = async () => {
     setConfirmedDeal(true);
     setConfirmModalVisible(false);
-    handleSendMessage(`[DEAL CONFIRMED]: मैंने ${chat.dealQuantity} (${chat.dealPrice}) का ऑर्डर कन्फर्म कर दिया है। कृपया डिलीवरी / पिकअप समय बताएं।`);
+    try {
+      const escrow = await createSmartEscrowDeal({
+        cropName: chat.cropName,
+        quantityLabel: chat.dealQuantity,
+        amountInr: chat.dealPrice,
+        farmerName: chat.farmerName,
+        buyerName: user?.fullName || chat.buyerName,
+      });
+      handleSendMessage(
+        `[SMART ESCROW LOCKED - ${escrow.dealId}]: मैंने ${chat.dealQuantity} (${chat.dealPrice}) का ऑर्डर कन्फर्म कर दिया है और राशि Web3 Smart Escrow (Tx: ${escrow.txHash.slice(0, 12)}...) में सुरक्षित कर दी है।`
+      );
+    } catch {
+      handleSendMessage(`[DEAL CONFIRMED]: मैंने ${chat.dealQuantity} (${chat.dealPrice}) का ऑर्डर कन्फर्म कर दिया है। कृपया डिलीवरी / पिकअप समय बताएं।`);
+    }
   };
 
   if (loading) {

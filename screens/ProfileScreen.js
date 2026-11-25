@@ -170,6 +170,28 @@ export default function ProfileScreen({ navigation }) {
 
           <View style={styles.settingDivider} />
 
+          {/* Web3 Agri-Chain & Smart Escrow Hub */}
+          <TouchableOpacity
+            style={styles.settingItemClickable}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('Web3Traceability')}
+          >
+            <View style={[styles.settingIconBox, { backgroundColor: '#E8EAF6' }]}>
+              <MaterialCommunityIcons name="cube-outline" size={20} color="#1A237E" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingLabel}>Web3 Agri-Chain & Wallet / ब्लॉकचेन</Text>
+              <Text style={[styles.settingValueActive, { color: '#1A237E' }]}>
+                Crop Provenance & Smart Escrow
+              </Text>
+            </View>
+            <View style={[styles.changeBadge, { backgroundColor: '#E8EAF6' }]}>
+              <Text style={[styles.changeBadgeText, { color: '#1A237E' }]}>Open ›</Text>
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.settingDivider} />
+
           {/* Logout Option */}
           <TouchableOpacity
             style={styles.settingItemClickable}

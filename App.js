@@ -28,6 +28,9 @@ import B2CMarketplaceScreen from './screens/b2c/B2CMarketplaceScreen';
 import B2CChatDetailScreen from './screens/b2c/B2CChatDetailScreen';
 import B2CChatsListScreen from './screens/b2c/B2CChatsListScreen';
 
+// Web3 Traceability & Smart Contract Escrow
+import Web3TraceabilityScreen from './screens/web3/Web3TraceabilityScreen';
+
 const Stack = createNativeStackNavigator();
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
@@ -113,6 +116,9 @@ function AppNavigator() {
             <Stack.Screen name="B2CMarketplace" component={B2CMarketplaceScreen} />
             <Stack.Screen name="B2CChatDetail" component={B2CChatDetailScreen} />
             <Stack.Screen name="B2CChatsList" component={B2CChatsListScreen} />
+
+            {/* Web3 Decentralized Traceability & Escrow */}
+            <Stack.Screen name="Web3Traceability" component={Web3TraceabilityScreen} />
           </Stack.Group>
         )}
       </Stack.Navigator>

@@ -107,18 +107,40 @@ export default function LoginScreen({ navigation, route }) {
   };
 
   /**
-   * Quick Demo Auto-Fill
+   * One-Tap Instant Demo Login (Farmer / Buyer / Mandi)
+   */
+  const handleInstantDemoLogin = async (demoRole = selectedRole) => {
+    setErrorMessage('');
+    const demoProfiles = {
+      [USER_ROLES.FARMER]: { fullName: 'Ramesh Kumar', phoneNumber: '9876543210' },
+      [USER_ROLES.CUSTOMER]: { fullName: 'Amit Sharma', phoneNumber: '9823044100' },
+      [USER_ROLES.MANDI_OWNER]: { fullName: 'Suresh Gupta', phoneNumber: '9811122233' },
+    };
+    const chosen = demoProfiles[demoRole] || demoProfiles[USER_ROLES.FARMER];
+
+    setSelectedRole(demoRole);
+    setFullName(chosen.fullName);
+    setMobileNumber(chosen.phoneNumber);
+    setLoading(true);
+    try {
+      await loginWithPhone({
+        fullName: chosen.fullName,
+        phoneNumber: chosen.phoneNumber,
+        role: demoRole,
+        preferredLanguage: lang,
+      });
+    } catch (err) {
+      setErrorMessage(err.message || 'Demo login failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Quick Demo Auto-Fill & Login
    */
   const handleQuickDemo = () => {
-    if (loginMode === 'phone') {
-      setFullName('Ramesh Kumar');
-      setMobileNumber('9876543210');
-      setSelectedRole(USER_ROLES.FARMER);
-    } else {
-      setEmail('farmer.ramesh@kisansaathi.in');
-      setPassword('Kisan@123');
-    }
-    setErrorMessage('');
+    handleInstantDemoLogin(selectedRole);
   };
 
   const handleResetSubmit = async () => {
@@ -388,6 +410,44 @@ export default function LoginScreen({ navigation, route }) {
                 </TouchableOpacity>
               </View>
             )}
+
+            {/* ONE-TAP DEMO LOGIN SECTION */}
+            <View style={styles.demoSection}>
+              <Text style={styles.demoSectionLabel}>
+                {lang === 'hi' ? 'एक-टैप डेमो लॉगिन (Instant Demo Login)' : 'One-Tap Demo Login'}
+              </Text>
+              <View style={styles.demoBtnRow}>
+                <TouchableOpacity
+                  style={styles.demoRoleBtn}
+                  onPress={() => handleInstantDemoLogin(USER_ROLES.FARMER)}
+                  disabled={loading}
+                  activeOpacity={0.8}
+                >
+                  <MaterialCommunityIcons name="sprout" size={14} color="#FFFFFF" style={{ marginRight: 4 }} />
+                  <Text style={styles.demoRoleBtnText}>{lang === 'hi' ? 'किसान डेमो' : 'Farmer'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.demoRoleBtn}
+                  onPress={() => handleInstantDemoLogin(USER_ROLES.CUSTOMER)}
+                  disabled={loading}
+                  activeOpacity={0.8}
+                >
+                  <MaterialCommunityIcons name="cart-outline" size={14} color="#FFFFFF" style={{ marginRight: 4 }} />
+                  <Text style={styles.demoRoleBtnText}>{lang === 'hi' ? 'खरीदार डेमो' : 'Buyer'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.demoRoleBtn}
+                  onPress={() => handleInstantDemoLogin(USER_ROLES.MANDI_OWNER)}
+                  disabled={loading}
+                  activeOpacity={0.8}
+                >
+                  <MaterialCommunityIcons name="storefront-outline" size={14} color="#FFFFFF" style={{ marginRight: 4 }} />
+                  <Text style={styles.demoRoleBtnText}>{lang === 'hi' ? 'मंडी डेमो' : 'Mandi'}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
 
             {/* CREATE ACCOUNT LINK */}
             <View style={styles.createAccountRow}>
@@ -810,5 +870,41 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
     fontSize: 12,
     fontWeight: '600',
+  },
+  demoSection: {
+    marginTop: 16,
+    paddingTop: 14,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.2)',
+    width: '100%',
+  },
+  demoSectionLabel: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  demoBtnRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 6,
+  },
+  demoRoleBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(27, 94, 32, 0.85)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    paddingVertical: 9,
+    paddingHorizontal: 6,
+    borderRadius: 10,
+  },
+  demoRoleBtnText: {
+    color: '#FFFFFF',
+    fontSize: 11.5,
+    fontWeight: '700',
   },
 });

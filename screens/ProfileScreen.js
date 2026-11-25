@@ -19,11 +19,17 @@ import { useAuth } from "../services/AuthContext";
 const { width: windowWidth } = Dimensions.get('window');
 
 export default function ProfileScreen({ navigation }) {
-  const { user, roleProfile, logout } = useAuth();
+  const { user, roleProfile, logout, updateProfile } = useAuth();
   const [locationText, setLocationText] = useState('New Delhi');
   const [currentLangCode, setCurrentLangCode] = useState('hi');
   const [langModalVisible, setLangModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Editable Farm Size & Crops state
+  const [farmModalVisible, setFarmModalVisible] = useState(false);
+  const [editFarmSize, setEditFarmSize] = useState('5 Acres');
+  const [editCropsText, setEditCropsText] = useState('Wheat, Paddy');
+  const [savingFarm, setSavingFarm] = useState(false);
 
   const currentLangDetails = getLanguageDetails(currentLangCode);
 
@@ -60,6 +66,48 @@ export default function ProfileScreen({ navigation }) {
     await savePreferredLanguage(code);
     setLangModalVisible(false);
     setSearchQuery('');
+  };
+
+  const handleOpenFarmModal = () => {
+    setEditFarmSize(roleProfile?.farmSize || '5 Acres');
+    const cropsStr = Array.isArray(roleProfile?.primaryCrops)
+      ? roleProfile.primaryCrops.join(', ')
+      : roleProfile?.primaryCrops || 'Wheat, Paddy';
+    setEditCropsText(cropsStr);
+    setFarmModalVisible(true);
+  };
+
+  const handleToggleCropChip = (cropName) => {
+    const currentList = editCropsText
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+    const exists = currentList.some((c) => c.toLowerCase() === cropName.toLowerCase());
+    const nextList = exists
+      ? currentList.filter((c) => c.toLowerCase() !== cropName.toLowerCase())
+      : [...currentList, cropName];
+    setEditCropsText(nextList.join(', '));
+  };
+
+  const handleSaveFarmDetails = async () => {
+    const cleanSize = editFarmSize.trim() || '5 Acres';
+    const cropsArray = editCropsText
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+
+    setSavingFarm(true);
+    try {
+      await updateProfile({
+        farmSize: cleanSize,
+        primaryCrops: cropsArray.length > 0 ? cropsArray : ['Wheat'],
+      });
+      setFarmModalVisible(false);
+    } catch (e) {
+      console.warn('Error saving farm details:', e);
+    } finally {
+      setSavingFarm(false);
+    }
   };
 
   const filteredLanguages = INDIAN_LANGUAGES.filter((item) => {
@@ -108,23 +156,29 @@ export default function ProfileScreen({ navigation }) {
 
           <View style={styles.settingDivider} />
 
-          {/* Farm Details if available */}
-          {roleProfile?.farmSize && (
-            <>
-              <View style={styles.settingItem}>
-                <View style={styles.settingIconBox}>
-                  <MaterialCommunityIcons name="sprout-outline" size={20} color="#2E7D32" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.settingLabel}>Farm Size & Crops / खेत व फसलें</Text>
-                  <Text style={styles.settingValue} numberOfLines={1}>
-                    {roleProfile.farmSize} • {Array.isArray(roleProfile.primaryCrops) ? roleProfile.primaryCrops.join(', ') : 'Wheat, Paddy'}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.settingDivider} />
-            </>
-          )}
+          {/* Editable Farm Size & Crops */}
+          <TouchableOpacity
+            style={styles.settingItemClickable}
+            activeOpacity={0.7}
+            onPress={handleOpenFarmModal}
+          >
+            <View style={styles.settingIconBox}>
+              <MaterialCommunityIcons name="sprout-outline" size={20} color="#2E7D32" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingLabel}>Farm Size & Crops / खेत व फसलें</Text>
+              <Text style={styles.settingValue} numberOfLines={1}>
+                {roleProfile?.farmSize || '5 Acres'} •{' '}
+                {Array.isArray(roleProfile?.primaryCrops)
+                  ? roleProfile.primaryCrops.join(', ')
+                  : roleProfile?.primaryCrops || 'Wheat, Paddy'}
+              </Text>
+            </View>
+            <View style={styles.changeBadge}>
+              <Text style={styles.changeBadgeText}>Edit / बदलें ›</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.settingDivider} />
 
           {/* Interactive Language Setting */}
           <TouchableOpacity
@@ -289,6 +343,95 @@ export default function ProfileScreen({ navigation }) {
                 );
               })}
             </ScrollView>
+          </View>
+        </SafeAreaView>
+      </Modal>
+
+      {/* EDIT FARM SIZE & CROPS MODAL */}
+      <Modal
+        visible={farmModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setFarmModalVisible(false)}
+      >
+        <SafeAreaView style={styles.modalOverlay}>
+          <View style={styles.farmModalContent}>
+            <View style={styles.modalHeader}>
+              <View>
+                <Text style={styles.modalTitle}>Edit Farm Size & Crops</Text>
+                <Text style={styles.modalSubtitle}>खेत का आकार और मुख्य फसलें अपडेट करें</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setFarmModalVisible(false)}
+                style={styles.modalCloseBtn}
+              >
+                <MaterialCommunityIcons name="close" size={20} color="#555" />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.farmFieldLabel}>Farm Size / खेत का आकार</Text>
+            <TextInput
+              style={styles.farmInput}
+              placeholder="e.g. 5 Acres, 10 Bigha, 2 Hectares"
+              value={editFarmSize}
+              onChangeText={setEditFarmSize}
+            />
+
+            <View style={styles.presetRow}>
+              {['2 Acres', '5 Acres', '10 Acres', '15+ Acres'].map((sizeOpt) => {
+                const isActive = editFarmSize.trim().toLowerCase() === sizeOpt.toLowerCase();
+                return (
+                  <TouchableOpacity
+                    key={sizeOpt}
+                    style={[styles.presetChip, isActive && styles.presetChipActive]}
+                    onPress={() => setEditFarmSize(sizeOpt)}
+                  >
+                    <Text style={[styles.presetChipText, isActive && styles.presetChipTextActive]}>
+                      {sizeOpt}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <Text style={[styles.farmFieldLabel, { marginTop: 14 }]}>
+              Primary Crops / मुख्य फसलें (comma-separated)
+            </Text>
+            <TextInput
+              style={styles.farmInput}
+              placeholder="e.g. Wheat, Paddy, Soybean"
+              value={editCropsText}
+              onChangeText={setEditCropsText}
+            />
+
+            <View style={styles.presetRow}>
+              {['Wheat', 'Paddy', 'Soybean', 'Mustard', 'Maize', 'Cotton', 'Sugarcane', 'Onion'].map((cropOpt) => {
+                const activeList = editCropsText.split(',').map((c) => c.trim().toLowerCase());
+                const isSelected = activeList.includes(cropOpt.toLowerCase());
+                return (
+                  <TouchableOpacity
+                    key={cropOpt}
+                    style={[styles.presetChip, isSelected && styles.presetChipActive]}
+                    onPress={() => handleToggleCropChip(cropOpt)}
+                  >
+                    <Text style={[styles.presetChipText, isSelected && styles.presetChipTextActive]}>
+                      {cropOpt}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <TouchableOpacity
+              style={styles.saveFarmBtn}
+              onPress={handleSaveFarmDetails}
+              disabled={savingFarm}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.saveFarmBtnText}>
+                {savingFarm ? 'Saving...' : 'Save Changes / सहेजें'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </Modal>
@@ -537,5 +680,68 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: '#CCCCCC',
+  },
+  farmModalContent: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    paddingBottom: 28,
+  },
+  farmFieldLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#37474F',
+    marginBottom: 6,
+  },
+  farmInput: {
+    backgroundColor: '#F5F7F5',
+    borderWidth: 1,
+    borderColor: '#CFD8DC',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: '#212121',
+  },
+  presetRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+    gap: 6,
+  },
+  presetChip: {
+    backgroundColor: '#F1F8E9',
+    borderWidth: 1,
+    borderColor: '#C5E1A5',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  presetChipActive: {
+    backgroundColor: '#2E7D32',
+    borderColor: '#2E7D32',
+  },
+  presetChipText: {
+    fontSize: 11.5,
+    fontWeight: '600',
+    color: '#2E7D32',
+  },
+  presetChipTextActive: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+  },
+  saveFarmBtn: {
+    backgroundColor: '#1B5E20',
+    paddingVertical: 13,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 18,
+  },
+  saveFarmBtnText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '800',
   },
 });

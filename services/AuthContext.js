@@ -10,6 +10,7 @@ import {
   logoutUser,
   requestPasswordReset,
   setMandiVerificationStatus,
+  updateRoleProfile,
   USER_ROLES,
 } from './authService';
 import { auth } from './firebaseConfig';
@@ -26,6 +27,7 @@ const AuthContext = createContext({
   logout: async () => {},
   resetPassword: async () => {},
   approveMandi: async () => {},
+  updateProfile: async () => {},
 });
 
 export function AuthProvider({ children }) {
@@ -136,6 +138,12 @@ export function AuthProvider({ children }) {
     return success;
   }, [user]);
 
+  const handleUpdateProfile = useCallback(async (updates) => {
+    const updatedProfile = await updateRoleProfile(updates);
+    setRoleProfile(updatedProfile);
+    return updatedProfile;
+  }, []);
+
   const value = {
     user,
     role,
@@ -147,6 +155,7 @@ export function AuthProvider({ children }) {
     logout: handleLogout,
     resetPassword: handleResetPassword,
     approveMandi: handleApproveMandi,
+    updateProfile: handleUpdateProfile,
     USER_ROLES,
   };
 

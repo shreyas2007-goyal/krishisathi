@@ -513,3 +513,42 @@ export async function setMandiVerificationStatus(uid, status = 'approved') {
     return false;
   }
 }
+
+/**
+ * Update the active user's roleProfile (e.g., farmSize, primaryCrops) and persist locally + Firestore
+ */
+export async function updateRoleProfile(updates = {}) {
+  try {
+    const currentSession = await getPersistedSession();
+    const existingProfile = currentSession?.roleProfile || {};
+    const updatedProfile = {
+      ...existingProfile,
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (currentSession) {
+      currentSession.roleProfile = updatedProfile;
+      await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(currentSession));
+
+      const uid = currentSession.user?.uid;
+      if (uid) {
+        const localDb = await getLocalDatabase();
+        if (localDb.farmerProfiles && localDb.farmerProfiles[uid]) {
+          localDb.farmerProfiles[uid] = { ...localDb.farmerProfiles[uid], ...updates };
+          await saveLocalDatabase(localDb);
+        }
+        try {
+          await updateDoc(doc(db, 'farmerProfiles', uid), updates);
+        } catch (err) {
+          // Offline / demo fallback already persisted in AsyncStorage
+        }
+      }
+    }
+
+    return updatedProfile;
+  } catch (e) {
+    console.error('Failed to update role profile:', e);
+    throw e;
+  }
+}

@@ -9,7 +9,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "node --test",
-    "lint:syntax": "node -e \"const fs=require('fs'),babel=require('@babel/core');['App.js','screens/HomeScreen.js','screens/ProfileScreen.js','screens/web3/Web3TraceabilityScreen.js','screens/b2c/B2CMarketplaceScreen.js'].forEach(f=>babel.transformSync(fs.readFileSync(f,'utf8'),{presets:['babel-preset-expo'],filename:f}));console.log('Syntax OK');\""
+    "test:server": "node --check voice-server/server.js",
+    "lint:syntax": "node -e \"const fs=require('fs'),path=require('path'),babel=require('@babel/core');const walk=(d)=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.js')?[path.join(d,e.name)]:[]);const files=[...walk('screens'),...walk('services'),...walk('components'),'App.js','index.js'];files.forEach(f=>babel.transformSync(fs.readFileSync(f,'utf8'),{presets:['babel-preset-expo'],filename:f}));console.log('Syntax OK across '+files.length+' files');\""
   },
   "dependencies": {
     "@config-plugins/react-native-webrtc": "^15.0.2",

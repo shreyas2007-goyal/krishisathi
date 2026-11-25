@@ -314,101 +314,195 @@ export default function HomeScreen({ navigation }) {
       >
         {/* TOP BRANDING & PROFILE HEADER */}
         <View style={styles.topProfileBar}>
-          <View style={styles.topLeftView}>
+          <View style={[styles.topLeftView, { flex: 1 }]}>
             <Image
               source={require('../assets/kisansaathi_logo.png')}
               style={styles.brandLogoHeader}
               resizeMode="contain"
             />
-            <View style={styles.userView}>
-              <Text style={styles.brandTitleText}>KisanSAATHI</Text>
-              <Text style={styles.greetingText}>{user?.fullName || 'Farmer'} • {greeting}</Text>
+            <View style={[styles.userView, { flex: 1 }]}>
+              <Text style={styles.brandTitleText} numberOfLines={1}>
+                {user?.fullName || (lang === 'hi' ? 'किसान साथी' : 'KisanSAATHI')}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setSearchModalVisible(true)}
+                style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2 }}
+              >
+                <MaterialCommunityIcons name="map-marker" size={13} color="#2E7D32" style={{ marginRight: 3 }} />
+                <Text style={styles.greetingText} numberOfLines={1}>
+                  {location?.primaryName || (lang === 'hi' ? 'अपना गांव चुनें' : 'Select Village')}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            {/* Quick Language Selector */}
+            <TouchableOpacity
+              style={styles.headerLangBtn}
+              onPress={() => handleLanguageChange(lang === 'hi' ? 'en' : 'hi')}
+              activeOpacity={0.8}
+              accessibilityRole="button"
+              accessibilityLabel="Switch language"
+            >
+              <MaterialCommunityIcons name="translate" size={16} color="#1B5E20" style={{ marginRight: 4 }} />
+              <Text style={styles.headerLangBtnText}>{lang === 'hi' ? 'हिन्दी' : 'EN'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.topRightView}
+              onPress={() => setNotificationModalVisible(true)}
+              activeOpacity={0.75}
+              accessibilityRole="button"
+              accessibilityLabel="Notifications and alerts"
+            >
+              <Image source={require('../assets/notification.png')} style={styles.notificationIcon} />
+              {unreadNotifCount > 0 && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationBadgeText}>
+                    {unreadNotifCount > 9 ? '9+' : unreadNotifCount}
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* WELCOME MESSAGE CARD */}
+        <View style={styles.welcomeBanner}>
+          <Text style={styles.welcomeMessageText}>
+            नमस्ते! आज आपकी खेती के लिए क्या जानकारी चाहिए?
+          </Text>
+          {lang !== 'hi' && (
+            <Text style={styles.welcomeSubText}>
+              Namaste! What information do you need for your farming today?
+            </Text>
+          )}
+        </View>
+
+        {/* FIVE MAIN FARMER FEATURE CARDS */}
+        <View style={styles.fiveCardsContainer}>
           <TouchableOpacity
-            style={styles.topRightView}
-            onPress={() => setNotificationModalVisible(true)}
-            activeOpacity={0.75}
-            accessibilityRole="button"
-            accessibilityLabel="Notifications and alerts"
+            style={styles.farmerMainCard}
+            onPress={() => navigation.navigate('Profile')}
+            activeOpacity={0.8}
           >
-            <Image source={require('../assets/notification.png')} style={styles.notificationIcon} />
-            {unreadNotifCount > 0 && (
-              <View style={styles.notificationBadge}>
-                <Text style={styles.notificationBadgeText}>
-                  {unreadNotifCount > 9 ? '9+' : unreadNotifCount}
-                </Text>
-              </View>
-            )}
+            <View style={styles.mainCardIconBox}>
+              <MaterialCommunityIcons name="sprout" size={26} color="#1B5E20" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.mainCardTitle}>मेरी फसल (My Crops)</Text>
+              <Text style={styles.mainCardSub}>
+                {lang === 'hi' ? 'खेत का आकार व अपनी फसलें देखें/बदलें' : 'View and edit your farm size & crops'}
+              </Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#2E7D32" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.farmerMainCard}
+            onPress={() => navigation.navigate('Diagnosis')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.mainCardIconBox}>
+              <MaterialCommunityIcons name="camera-iris" size={26} color="#1B5E20" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.mainCardTitle}>फसल की बीमारी पहचानें (Crop Disease)</Text>
+              <Text style={styles.mainCardSub}>
+                {lang === 'hi' ? 'फसल की फोटो खींचें और शुरुआती जांच पाएं' : 'Take or upload a crop photo to check symptoms'}
+              </Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#2E7D32" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.farmerMainCard}
+            onPress={() => navigation.navigate('Market')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.mainCardIconBox}>
+              <MaterialCommunityIcons name="storefront" size={26} color="#1B5E20" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.mainCardTitle}>आज का मंडी भाव (Mandi Prices)</Text>
+              <Text style={styles.mainCardSub}>
+                {lang === 'hi' ? 'अपनी फसल और नजदीकी मंडी का ताज़ा भाव देखें' : 'Check crop rates in your nearest APMC mandi'}
+              </Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#2E7D32" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.farmerMainCard}
+            onPress={() => navigation.navigate('Weather')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.mainCardIconBox}>
+              <MaterialCommunityIcons name="weather-partly-rainy" size={26} color="#1B5E20" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.mainCardTitle}>मौसम की जानकारी (Weather)</Text>
+              <Text style={styles.mainCardSub}>
+                {lang === 'hi' ? 'बारिश, तापमान और सिंचाई की सलाह' : 'Rainfall, temperature & spraying advisory'}
+              </Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#2E7D32" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.farmerMainCard}
+            onPress={() => navigation.navigate('Schemes')}
+            activeOpacity={0.8}
+          >
+            <View style={styles.mainCardIconBox}>
+              <MaterialCommunityIcons name="bank-outline" size={26} color="#1B5E20" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.mainCardTitle}>सरकारी योजनाएँ (Govt Schemes)</Text>
+              <Text style={styles.mainCardSub}>
+                {lang === 'hi' ? 'पीएम-किसान, फसल बीमा और KCC की जानकारी' : 'PM-KISAN, Fasal Bima, KCC & Soil Health'}
+              </Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#2E7D32" />
           </TouchableOpacity>
         </View>
 
-        {/* QUICK ACTION FEATURE CARDS (Krishi Sahayak & Mandi Rates) */}
-        <View style={styles.featureRow}>
+        {/* SECONDARY FARMER ACTIONS: SELL PRODUCE, BETTER DEALS, AI ASSISTANT */}
+        <View style={styles.secondaryActionsRow}>
           <TouchableOpacity
-            style={styles.chatButton}
+            style={styles.secondaryActionTile}
+            onPress={() => navigation.navigate('B2CMarketplace')}
+            activeOpacity={0.85}
+          >
+            <MaterialCommunityIcons name="handshake" size={24} color="#1B5E20" />
+            <Text style={styles.secondaryTileTitle}>
+              {lang === 'hi' ? 'फसल बेचें\n(Sell Produce)' : 'Sell Your\nProduce'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.secondaryActionTile}
+            onPress={() => navigation.navigate('Market', { initialTab: 'deals' })}
+            activeOpacity={0.85}
+          >
+            <MaterialCommunityIcons name="cash-check" size={24} color="#1B5E20" />
+            <Text style={styles.secondaryTileTitle}>
+              {lang === 'hi' ? 'बेहतर सौदे\n(Better Deals)' : 'Better\nDeals'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.secondaryActionTile}
             onPress={() => navigation.navigate('Chat')}
             activeOpacity={0.85}
           >
-            <MaterialCommunityIcons name="chat-question-outline" size={24} color="#1B5E20" />
-            <Text style={styles.featureTitle}>
-              {lang === 'hi' ? 'कृषि सहायक' : 'Krishi Sahayak'}
-            </Text>
-            <Text style={styles.featureSub}>
-              {lang === 'hi' ? 'सलाह एवं समाधान' : 'Farming Advisory'}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.marketShortcutButton}
-            onPress={() => navigation.navigate('Market')}
-            activeOpacity={0.85}
-          >
-            <MaterialCommunityIcons name="store-outline" size={24} color="#1565C0" />
-            <Text style={styles.featureTitle}>
-              {lang === 'hi' ? 'मंडी भाव' : 'Live Mandi'}
-            </Text>
-            <Text style={styles.featureSub}>
-              {lang === 'hi' ? 'ताजा बाजार दरें' : 'APMC Market Rates'}
+            <MaterialCommunityIcons name="robot-happy-outline" size={24} color="#1B5E20" />
+            <Text style={styles.secondaryTileTitle}>
+              {lang === 'hi' ? 'AI कृषि\nसहायक' : 'AI Krishi\nAssistant'}
             </Text>
           </TouchableOpacity>
         </View>
-
-        {/* B2C DIRECT SELL CALLOUT (FARMER-TO-CONSUMER) */}
-        <TouchableOpacity
-          style={styles.b2cFarmerCard}
-          onPress={() => navigation.navigate('B2CMarketplace')}
-          activeOpacity={0.88}
-        >
-          <View style={styles.b2cFarmerCardContent}>
-            <View style={styles.b2cFarmerTopRow}>
-              <View style={styles.b2cFarmerIconCircle}>
-                <MaterialCommunityIcons name="handshake" size={20} color="#FFFFFF" />
-              </View>
-              <View style={{ flex: 1, marginLeft: 10 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.b2cFarmerBadge}>KISAN DIRECT • B2C बाज़ार</Text>
-                  <View style={styles.b2cFarmerQtyPill}>
-                    <Text style={styles.b2cFarmerQtyPillText}>50kg / 100kg</Text>
-                  </View>
-                </View>
-                <Text style={styles.b2cFarmerTitle}>
-                  {lang === 'hi' ? 'सीधे ग्राहकों को बेचें — 25-40% अधिक मुनाफा' : 'Sell in 50kg & 100kg Lots directly to Retail Buyers'}
-                </Text>
-              </View>
-            </View>
-            <Text style={styles.b2cFarmerDesc}>
-              {lang === 'hi'
-                ? 'मंडी कटौती से बचें। अपनी 50 kg या 1 क्विंटल की बोरियां लिस्ट करें और स्थानीय परिवारों/दुकानों से सीधी चैट करें।'
-                : 'Cut out middlemen. List your harvest in retail bags and negotiate directly with retail buyers over chat.'}
-            </Text>
-            <View style={styles.b2cFarmerBottomRow}>
-              <Text style={styles.b2cFarmerActionText}>
-                {lang === 'hi' ? 'फसल लिस्ट करें या खरीदार चैट देखें ›' : 'List Harvest & View Buyer Chats ›'}
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
 
         {/* SECTION HEADER: WEATHER & CROP ADVISORY */}
         <View style={styles.sectionHeaderBar}>
@@ -1067,7 +1161,107 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F4F7F4',
+    backgroundColor: '#F7FAF7',
+  },
+  headerLangBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C8E6C9',
+  },
+  headerLangBtnText: {
+    fontSize: 12.5,
+    fontWeight: '800',
+    color: '#1B5E20',
+  },
+  welcomeBanner: {
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 14,
+    padding: 14,
+    marginTop: 6,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#C8E6C9',
+  },
+  welcomeMessageText: {
+    fontSize: 16.5,
+    fontWeight: '800',
+    color: '#1B5E20',
+    lineHeight: 23,
+  },
+  welcomeSubText: {
+    fontSize: 12.5,
+    color: '#374151',
+    marginTop: 4,
+    fontWeight: '600',
+  },
+  fiveCardsContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    gap: 10,
+    marginBottom: 14,
+  },
+  farmerMainCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#D1E7D1',
+    minHeight: 68,
+  },
+  mainCardIconBox: {
+    width: 46,
+    height: 46,
+    borderRadius: 12,
+    backgroundColor: '#E8F5E9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  mainCardTitle: {
+    fontSize: 15.5,
+    fontWeight: '800',
+    color: '#1F2937',
+  },
+  mainCardSub: {
+    fontSize: 12.5,
+    color: '#4B5563',
+    marginTop: 2,
+  },
+  secondaryActionsRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignSelf: 'center',
+    gap: 10,
+    marginBottom: 16,
+  },
+  secondaryActionTile: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: '#C8E6C9',
+    minHeight: 82,
+  },
+  secondaryTileTitle: {
+    fontSize: 12.5,
+    fontWeight: '800',
+    color: '#1B5E20',
+    textAlign: 'center',
+    marginTop: 6,
+    lineHeight: 16,
   },
   scrollContent: {
     paddingBottom: 40,

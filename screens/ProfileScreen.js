@@ -202,27 +202,30 @@ export default function ProfileScreen({ navigation }) {
 
           <View style={styles.settingDivider} />
 
-                    {/* Internal Administration: KisanSAATHI Data Scraper */}
-          <TouchableOpacity
-            style={styles.settingItemClickable}
-            activeOpacity={0.7}
-            onPress={() => navigation.navigate('DataScraper')}
-          >
-            <View style={[styles.settingIconBox, { backgroundColor: '#E8F5E9' }]}>
-              <MaterialCommunityIcons name="robot-vacuum" size={20} color="#1B5E20" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingLabel}>Data Scraper (Admin) / डेटा स्क्रैपर</Text>
-              <Text style={styles.settingValueActive}>
-                Wikipedia & OpenAI Extraction Bot
-              </Text>
-            </View>
-            <View style={[styles.changeBadge, { backgroundColor: '#E8F5E9' }]}>
-              <Text style={[styles.changeBadgeText, { color: '#1B5E20' }]}>Open ›</Text>
-            </View>
-          </TouchableOpacity>
-
-          <View style={styles.settingDivider} />
+          {/* Internal Administration: KisanSAATHI Data Scraper (Admin Only) */}
+          {user?.role === 'admin' && (
+            <>
+              <TouchableOpacity
+                style={styles.settingItemClickable}
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate('DataScraper')}
+              >
+                <View style={[styles.settingIconBox, { backgroundColor: '#E8F5E9' }]}>
+                  <MaterialCommunityIcons name="robot-vacuum" size={20} color="#1B5E20" />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.settingLabel}>Data Scraper (Admin) / डेटा स्क्रैपर</Text>
+                  <Text style={styles.settingValueActive}>
+                    Wikipedia & OpenAI Extraction Bot
+                  </Text>
+                </View>
+                <View style={[styles.changeBadge, { backgroundColor: '#E8F5E9' }]}>
+                  <Text style={[styles.changeBadgeText, { color: '#1B5E20' }]}>Open ›</Text>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.settingDivider} />
+            </>
+          )}
 
           {/* Web3 Agri-Chain & Smart Escrow Hub */}
           <TouchableOpacity

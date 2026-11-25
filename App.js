@@ -31,6 +31,10 @@ import B2CChatsListScreen from './screens/b2c/B2CChatsListScreen';
 // Web3 Traceability & Smart Contract Escrow
 import Web3TraceabilityScreen from './screens/web3/Web3TraceabilityScreen';
 
+// Farmer-First Feature Screens
+import DiagnosisScreen from './screens/DiagnosisScreen';
+import SchemesScreen from './screens/SchemesScreen';
+
 const Stack = createNativeStackNavigator();
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
@@ -109,8 +113,14 @@ function AppNavigator() {
               // Farmer Experience (Default & Primary)
               <Stack.Screen name="FarmerDashboard" component={TabScreen} />
             )}
-            {/* Dedicated Internal Administration: KisanSAATHI Data Scraper */}
-            <Stack.Screen name="DataScraper" component={DataScraperScreen} />
+            {/* Dedicated Internal Administration: KisanSAATHI Data Scraper (Admin Only) */}
+            {role === 'admin' && (
+              <Stack.Screen name="DataScraper" component={DataScraperScreen} />
+            )}
+
+            {/* Farmer-First Feature Screens */}
+            <Stack.Screen name="Diagnosis" component={DiagnosisScreen} />
+            <Stack.Screen name="Schemes" component={SchemesScreen} />
 
             {/* B2C Direct Farmer-to-Consumer & Negotiation Chat Stack */}
             <Stack.Screen name="B2CMarketplace" component={B2CMarketplaceScreen} />

@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./HomeScreen";
 import MarketScreen from "./MarketScreen";
+import WeatherScreen from "./WeatherScreen";
 import CustomTabBar from "../components/CustomTabBar";
 import ChatScreen from "./ChatScreen";
 import ProfileScreen from "./ProfileScreen";
@@ -14,20 +15,6 @@ export default function TabScreen() {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarShowLabel: false,
-          headerTitleStyle: { color: 'white', fontWeight: 'bold' },
-          headerTitle: 'KisanSAATHI',
-          headerShown: false,
-        }}
-      />
-
-      <Tab.Screen
-        name="Market"
-        component={MarketScreen}
-        options={{
-          tabBarShowLabel: false,
-          headerTitleStyle: { color: 'white', fontWeight: 'bold' },
-          headerTitle: 'Market & Mandi Intelligence',
           headerShown: false,
         }}
       />
@@ -36,10 +23,25 @@ export default function TabScreen() {
         name="Chat"
         component={ChatScreen}
         options={{
-          tabBarShowLabel: false,
-          headerTitleStyle: { color: 'black', fontWeight: 'bold' },
-          headerTitle: 'Krishi Sahayak',
+          headerTitleStyle: { color: '#1B5E20', fontWeight: 'bold' },
+          headerTitle: 'AI कृषि सहायक (Krishi Sahayak)',
           headerShown: true,
+        }}
+      />
+
+      <Tab.Screen
+        name="Weather"
+        component={WeatherScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Tab.Screen
+        name="Market"
+        component={MarketScreen}
+        options={{
+          headerShown: false,
         }}
       />
 
@@ -47,9 +49,6 @@ export default function TabScreen() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarShowLabel: false,
-          headerTitleStyle: { color: 'white', fontWeight: 'bold' },
-          headerTitle: 'Profile',
           headerShown: false,
         }}
       />

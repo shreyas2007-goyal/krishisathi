@@ -30,13 +30,19 @@ import { getTranslation } from '../services/translations';
 
 const { width: windowWidth } = Dimensions.get('window');
 
-export default function MarketScreen({ navigation }) {
+export default function MarketScreen({ navigation, route }) {
   // Multilingual state
   const [lang, setLang] = useState('hi');
   const t = getTranslation(lang);
 
   // Active top tab: 'mandi' (Live Mandi Prices) or 'deals' (Better Deals)
-  const [activeTab, setActiveTab] = useState('mandi');
+  const [activeTab, setActiveTab] = useState(route?.params?.initialTab || 'mandi');
+
+  useEffect(() => {
+    if (route?.params?.initialTab) {
+      setActiveTab(route.params.initialTab);
+    }
+  }, [route?.params?.initialTab]);
 
   // Location state
   const [farmerLocation, setFarmerLocation] = useState(null);
@@ -352,7 +358,9 @@ export default function MarketScreen({ navigation }) {
 
             {/* CROP SELECTION SECTION */}
             <View style={styles.cardContainer}>
-              <Text style={styles.cardHeaderTitle}>{t.whatCropToSell}</Text>
+              <Text style={styles.cardHeaderTitle}>
+                {lang === 'hi' ? 'चरण 1: अपनी फसल चुनें (Step 1: Select Crop)' : 'Step 1: Select Your Crop'}
+              </Text>
 
               {/* Crop Search Bar */}
               <View style={styles.searchBarRow}>
@@ -419,7 +427,9 @@ export default function MarketScreen({ navigation }) {
             {/* LOCATION & STATE FILTER BAR (WITH STATE DROPDOWN) */}
             <View style={styles.filterBarContainer}>
               <View style={styles.filterTitleRow}>
-                <Text style={styles.filterBarLabel}>{lang === 'hi' ? 'राज्य व मंडी फिल्टर' : 'State & Mandi Filter'}:</Text>
+                <Text style={styles.filterBarLabel}>
+                  {lang === 'hi' ? 'चरण 2: राज्य व मंडी चुनें (Step 2: District / Mandi)' : 'Step 2: Select State or Mandi'}:
+                </Text>
                 {farmerLocation && (
                   <Text style={styles.currentLocPill}>
                     {farmerLocation.primaryName || farmerLocation.district}

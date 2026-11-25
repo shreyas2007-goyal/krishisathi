@@ -65,6 +65,53 @@ export default function HomeScreen({ navigation }) {
 
   // Manual location search modal
   const [searchModalVisible, setSearchModalVisible] = useState(false);
+
+  // Notifications state
+  const [notificationModalVisible, setNotificationModalVisible] = useState(false);
+  const [notificationsList, setNotificationsList] = useState([]);
+  const [unreadNotifCount, setUnreadNotifCount] = useState(3);
+  const [selectedNotifCategory, setSelectedNotifCategory] = useState('All');
+
+  const loadNotificationsData = async () => {
+    try {
+      const list = await getNotifications();
+      setNotificationsList(list);
+      setUnreadNotifCount(list.filter((n) => !n.isRead).length);
+    } catch (e) {
+      console.warn('Error loading notifications:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadNotificationsData();
+    const unsub = navigation.addListener('focus', () => {
+      loadNotificationsData();
+    });
+    return unsub;
+  }, [navigation]);
+
+  const handleMarkAllRead = async () => {
+    const updated = await markAllNotificationsAsRead();
+    setNotificationsList(updated);
+    setUnreadNotifCount(0);
+  };
+
+  const handleNotificationPress = async (item) => {
+    await markNotificationAsRead(item.id);
+    loadNotificationsData();
+    if (item.actionRoute) {
+      setNotificationModalVisible(false);
+      navigation.navigate(item.actionRoute);
+    }
+  };
+
+  const filteredNotifications = notificationsList.filter((item) => {
+    if (selectedNotifCategory === 'All') return true;
+    if (selectedNotifCategory === 'Mandi') return item.type === 'mandi';
+    if (selectedNotifCategory === 'Weather') return item.type === 'weather' || item.type === 'advisory';
+    if (selectedNotifCategory === 'Deals') return item.type === 'b2c';
+    return true;
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -271,9 +318,22 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.greetingText}>{user?.fullName || 'Farmer'} • {greeting}</Text>
             </View>
           </View>
-          <View style={styles.topRightView}>
+          <TouchableOpacity
+            style={styles.topRightView}
+            onPress={() => setNotificationModalVisible(true)}
+            activeOpacity={0.75}
+            accessibilityRole="button"
+            accessibilityLabel="Notifications and alerts"
+          >
             <Image source={require('../assets/notification.png')} style={styles.notificationIcon} />
-          </View>
+            {unreadNotifCount > 0 && (
+              <View style={styles.notificationBadge}>
+                <Text style={styles.notificationBadgeText}>
+                  {unreadNotifCount > 9 ? '9+' : unreadNotifCount}
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
 
         {/* QUICK ACTION FEATURE CARDS (Krishi Sahayak & Mandi Rates) */}
@@ -777,6 +837,130 @@ export default function HomeScreen({ navigation }) {
         </View>
       </ScrollView>
 
+      {/* NOTIFICATIONS & ALERTS MODAL */}
+      <Modal
+        visible={notificationModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setNotificationModalVisible(false)}
+      >
+        <SafeAreaView style={styles.notifModalOverlay}>
+          <View style={styles.notifModalContent}>
+            {/* Modal Header */}
+            <View style={styles.notifModalHeader}>
+              <View style={{ flex: 1 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.notifModalTitle}>
+                    {lang === 'hi' ? 'सूचनाएं एवं अलर्ट' : 'Notifications & Alerts'}
+                  </Text>
+                  {unreadNotifCount > 0 && (
+                    <View style={styles.notifUnreadPill}>
+                      <Text style={styles.notifUnreadPillText}>{unreadNotifCount} New</Text>
+                    </View>
+                  )}
+                </View>
+                <Text style={styles.notifModalSubtitle}>
+                  {lang === 'hi' ? 'ताज़ा मंडी भाव, मौसम चेतावनी एवं सरकारी योजनाएं' : 'Live mandi surges, weather risks & B2C deals'}
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => setNotificationModalVisible(false)}
+                style={styles.notifCloseBtn}
+              >
+                <MaterialCommunityIcons name="close" size={22} color="#555" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Filter Chips & Mark All Read */}
+            <View style={styles.notifTopActions}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }}>
+                {['All', 'Mandi', 'Weather', 'Deals'].map((cat) => {
+                  const isSelected = selectedNotifCategory === cat;
+                  return (
+                    <TouchableOpacity
+                      key={cat}
+                      style={[styles.notifFilterChip, isSelected && styles.notifFilterChipActive]}
+                      onPress={() => setSelectedNotifCategory(cat)}
+                      activeOpacity={0.8}
+                    >
+                      <Text style={[styles.notifFilterText, isSelected && styles.notifFilterTextActive]}>
+                        {cat === 'All' ? (lang === 'hi' ? 'सभी' : 'All') : cat}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+
+              {unreadNotifCount > 0 && (
+                <TouchableOpacity onPress={handleMarkAllRead} style={styles.markAllReadBtn}>
+                  <Text style={styles.markAllReadText}>
+                    {lang === 'hi' ? 'सभी पढ़े गए' : 'Mark all read'}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            {/* Notifications Feed */}
+            <ScrollView style={styles.notifListScroll} contentContainerStyle={{ paddingBottom: 24 }}>
+              {filteredNotifications.length === 0 ? (
+                <View style={styles.emptyNotifBox}>
+                  <MaterialCommunityIcons name="bell-outline" size={44} color="#BDBDBD" />
+                  <Text style={styles.emptyNotifTitle}>
+                    {lang === 'hi' ? 'कोई नई सूचना नहीं है' : 'No notifications'}
+                  </Text>
+                  <Text style={styles.emptyNotifSub}>
+                    {lang === 'hi' ? 'सभी कृषि अलर्ट और अपडेट यहीं दिखेंगे।' : 'All farm and market alerts will appear here.'}
+                  </Text>
+                </View>
+              ) : (
+                filteredNotifications.map((notif) => (
+                  <TouchableOpacity
+                    key={notif.id}
+                    style={[styles.notifCard, !notif.isRead && styles.notifCardUnread]}
+                    onPress={() => handleNotificationPress(notif)}
+                    activeOpacity={0.8}
+                  >
+                    <View style={[styles.notifIconCircle, { backgroundColor: `${notif.iconColor || '#2E7D32'}15` }]}>
+                      <MaterialCommunityIcons name={notif.icon || 'bell'} size={20} color={notif.iconColor || '#2E7D32'} />
+                    </View>
+
+                    <View style={{ flex: 1, marginLeft: 10 }}>
+                      <View style={styles.notifCardTop}>
+                        <View style={styles.notifCategoryTag}>
+                          <Text style={[styles.notifCategoryTagText, { color: notif.iconColor || '#2E7D32' }]}>
+                            {lang === 'hi' ? notif.categoryHi || notif.category : notif.category}
+                          </Text>
+                        </View>
+                        <Text style={styles.notifTimeText}>{notif.time}</Text>
+                      </View>
+
+                      <Text style={[styles.notifTitle, !notif.isRead && styles.notifTitleUnread]}>
+                        {lang === 'hi' ? notif.titleHi || notif.title : notif.title}
+                      </Text>
+
+                      <Text style={styles.notifMessage} numberOfLines={3}>
+                        {lang === 'hi' ? notif.messageHi || notif.message : notif.message}
+                      </Text>
+
+                      {notif.actionLabel && (
+                        <View style={styles.notifActionRow}>
+                          <Text style={[styles.notifActionLink, { color: notif.iconColor || '#2E7D32' }]}>
+                            {lang === 'hi' ? notif.actionLabelHi || notif.actionLabel : notif.actionLabel} ›
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+
+                    {!notif.isRead && <View style={styles.unreadDot} />}
+                  </TouchableOpacity>
+                ))
+              )}
+            </ScrollView>
+          </View>
+        </SafeAreaView>
+      </Modal>
+
       {/* MANUAL LOCATION SEARCH MODAL */}
       <Modal
         visible={searchModalVisible}
@@ -926,8 +1110,207 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   notificationIcon: {
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -3,
+    right: -3,
+    backgroundColor: '#D32F2F',
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+  },
+  notificationBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: '800',
+  },
+
+  // NOTIFICATION MODAL STYLES
+  notifModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  notifModalContent: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    height: '85%',
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  notifModalHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+  notifModalTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#1A331A',
+  },
+  notifUnreadPill: {
+    backgroundColor: '#FFEBEE',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    marginLeft: 8,
+  },
+  notifUnreadPillText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#C62828',
+  },
+  notifModalSubtitle: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 2,
+  },
+  notifCloseBtn: {
+    padding: 4,
+  },
+  notifTopActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  notifCategoryFilterRow: {
+    flexDirection: 'row',
+  },
+  notifFilterChip: {
+    backgroundColor: '#F1F8E9',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginRight: 6,
+  },
+  notifFilterChipActive: {
+    backgroundColor: '#2E7D32',
+  },
+  notifFilterText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#2E7D32',
+  },
+  notifFilterTextActive: {
+    color: '#FFFFFF',
+  },
+  markAllReadBtn: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  markAllReadText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1565C0',
+  },
+  notifListScroll: {
+    flex: 1,
+    marginTop: 10,
+  },
+  notifCard: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
+    position: 'relative',
+  },
+  notifCardUnread: {
+    backgroundColor: '#F9FCF9',
+    borderColor: '#C8E6C9',
+    borderLeftWidth: 4,
+    borderLeftColor: '#2E7D32',
+  },
+  notifIconCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notifCardTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  notifCategoryTag: {
+    backgroundColor: '#F5F5F5',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  notifCategoryTagText: {
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  notifTimeText: {
+    fontSize: 10,
+    color: '#9E9E9E',
+  },
+  notifTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 2,
+  },
+  notifTitleUnread: {
+    fontWeight: '800',
+    color: '#111111',
+  },
+  notifMessage: {
+    fontSize: 11.5,
+    color: '#555555',
+    lineHeight: 15,
+  },
+  notifActionRow: {
+    marginTop: 6,
+    alignSelf: 'flex-start',
+  },
+  notifActionLink: {
+    fontSize: 11.5,
+    fontWeight: '700',
+  },
+  unreadDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#2E7D32',
+    position: 'absolute',
+    top: 12,
+    right: 12,
+  },
+  emptyNotifBox: {
+    paddingVertical: 50,
+    alignItems: 'center',
+  },
+  emptyNotifTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#666',
+    marginTop: 8,
+  },
+  emptyNotifSub: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
   },
 
   // QUICK ACTIONS ROW

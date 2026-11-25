@@ -2,7 +2,7 @@
 // KisanSAATHI - Role-Based Root Navigation & Protected Routing
 
 import React from 'react';
-import { View, Text, Image, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, ActivityIndicator, StyleSheet, Dimensions, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
@@ -30,6 +30,36 @@ import B2CChatsListScreen from './screens/b2c/B2CChatsListScreen';
 
 const Stack = createNativeStackNavigator();
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+
+// Inject Web Scrollbar & Smooth Scrolling CSS on Web
+if (Platform.OS === 'web' && typeof document !== 'undefined') {
+  const existing = document.getElementById('kisansaathi-global-scroll-style');
+  if (!existing) {
+    const style = document.createElement('style');
+    style.id = 'kisansaathi-global-scroll-style';
+    style.textContent = `
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #F1F8F1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #A5D6A7;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #2E7D32;
+      }
+      html, body, #root {
+        height: 100%;
+        overflow-x: hidden;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
 
 function AppNavigator() {
   const { user, role, isLoading } = useAuth();

@@ -74,10 +74,18 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topView} />
-      <Image source={require('../assets/user.jpg')} style={styles.userAvatar} />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={true}
+        bounces={true}
+      >
+        <View style={styles.bannerContainer}>
+          <View style={styles.topView} />
+          <Image source={require('../assets/user.jpg')} style={styles.userAvatar} />
+        </View>
 
-      <View style={styles.bottomView}>
+        <View style={styles.bottomView}>
         <Text style={styles.userName}>{user?.fullName || 'Abhishek Singh'}</Text>
         <Text style={styles.userRole}>
           {user?.role === 'farmer' ? 'Farmer / किसान' : user?.role || 'Farmer / किसान'} • {user?.email || 'farmer@kisansaathi.in'}
@@ -176,7 +184,7 @@ export default function ProfileScreen({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
 
       {/* 22 SCHEDULED LANGUAGES SELECTION MODAL */}
       <Modal
@@ -270,19 +278,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7FAF7',
   },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 130, // Clear bottom navigation bar completely
+  },
+  bannerContainer: {
+    width: '100%',
+    height: 180,
+    position: 'relative',
+  },
   topView: {
     width: '100%',
-    height: '32%',
+    height: 130,
     backgroundColor: '#B9F2AF',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
   userAvatar: {
     position: 'absolute',
-    top: '20%',
+    bottom: 0,
     alignSelf: 'center',
-    height: 120,
-    width: 120,
+    height: 110,
+    width: 110,
     borderRadius: 24,
     borderWidth: 4,
     borderColor: '#FFFFFF',
@@ -293,10 +314,9 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   bottomView: {
-    flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingTop: 65,
+    paddingTop: 12,
   },
   userName: {
     fontSize: 24,

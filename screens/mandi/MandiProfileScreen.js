@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 16,
-    paddingBottom: 40,
+    paddingBottom: 130,
   },
   heroCard: {
     backgroundColor: '#FFFFFF',

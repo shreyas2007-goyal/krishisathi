@@ -1,5 +1,27 @@
 [
   {
+    "id": "wiki_live_52648714",
+    "documentId": "wiki_live_52648714",
+    "title": "Multiple sex partners",
+    "category": "Live Web Scan",
+    "language": "English",
+    "summary": "Multiple sex partners (MSP) is the measure and incidence of engaging in sexual activities with two or more people within a specific time period. Sexual activity with MSP can happen simultaneously or serially. MSP includes sexual activity between peop",
+    "extractedData": {
+      "key_facts": [
+        "Multiple sex partners (MSP) is the measure and incidence of engaging in sexual activities with two or more people within a specific time period. Sexua"
+      ]
+    },
+    "source": {
+      "name": "Wikipedia (Live Web Scan)",
+      "url": "https://en.wikipedia.org/wiki/Multiple_sex_partners",
+      "page_id": "52648714",
+      "license": "CC BY-SA 4.0"
+    },
+    "verificationStatus": "approved",
+    "createdAt": "2026-11-25T02:01:35.488Z",
+    "updatedAt": "2026-11-25T02:01:35.488Z"
+  },
+  {
     "id": "wiki_live_5591",
     "documentId": "wiki_live_5591",
     "title": "जैवप्रौद्योगिकी",

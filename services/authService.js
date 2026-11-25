@@ -538,11 +538,8 @@ export async function updateRoleProfile(updates = {}) {
           localDb.farmerProfiles[uid] = { ...localDb.farmerProfiles[uid], ...updates };
           await saveLocalDatabase(localDb);
         }
-        try {
-          await updateDoc(doc(db, 'farmerProfiles', uid), updates);
-        } catch (err) {
-          // Offline / demo fallback already persisted in AsyncStorage
-        }
+        // Non-blocking Firestore sync (local AsyncStorage is already persisted)
+        updateDoc(doc(db, 'farmerProfiles', uid), updates).catch(() => {});
       }
     }
 
